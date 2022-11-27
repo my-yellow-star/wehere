@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - preConditions:
+
+  - includeAll:
+      path: classpath:db/changelog/migration

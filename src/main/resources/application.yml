@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  output:
+    ansi:
+      enabled: always
+  config:
+    import:
+      - optional:config/env.yml
+  datasource:
+    url: "${mysql.url}"
+    username: "${mysql.username}"
+    password: "${mysql.password}"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    change-log: "classpath:db/changelog/db.changelog-master.yml"
+    enabled: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    generate-ddl: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+      ddl-auto: none
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: "${mail.username}"
+#    password: "${mail.password}"
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+#jwt:
+#  public-key: "${jwt.public-key}"
+#  private-key: "${jwt.private-key}"
+#
+#cloud:
+#  aws:
+#    credentials:
+#      access-key: "${aws.access-key}"
+#      secret-key: "${aws.secret-key}"
+#    s3:
+#      bucket: "${aws.bucket}"
+#    region:
+#      static: "${aws.region}"
+#    stack:
+#      auto: false

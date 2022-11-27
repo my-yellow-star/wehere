@@ -1,0 +1,4 @@
+mysql:
+  url: jdbc:mysql://localhost:33061/wehere?createDatabaseIfNotExist=true
+  username: root
+  password: test
