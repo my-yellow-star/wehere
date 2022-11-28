@@ -1,4 +1,4 @@
-package api.epilogue.wehere.member.repository
+package api.epilogue.wehere.member
 
 import api.epilogue.wehere.member.domain.Member
 import api.epilogue.wehere.member.domain.MemberRepository
