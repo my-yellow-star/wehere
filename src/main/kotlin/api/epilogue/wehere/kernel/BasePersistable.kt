@@ -1,7 +1,7 @@
 package api.epilogue.wehere.kernel
 
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.EntityListeners
 import javax.persistence.Id

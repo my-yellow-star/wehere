@@ -1,0 +1,28 @@
+package api.epilogue.wehere.member.domain
+
+import api.epilogue.wehere.kernel.BasePersistable
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+
+@Entity
+class Member(
+    var nickname: String,
+    var profileImageUrl: String? = null
+) : BasePersistable() {
+    @Enumerated(EnumType.STRING)
+    var state: MemberState = MemberState.ACTIVE
+
+    @Enumerated(EnumType.STRING)
+    var grade: MemberGrade = MemberGrade.FREE_TIER
+
+    enum class MemberState {
+        ACTIVE,
+        RESIGNED
+    }
+
+    enum class MemberGrade {
+        FREE_TIER,
+        PRO
+    }
+}

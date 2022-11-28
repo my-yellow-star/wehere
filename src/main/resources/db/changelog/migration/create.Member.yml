@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create.Member
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: Member
+      changes:
+        - createTable:
+            tableName: Member
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nickname
+                  type: varchar(100)
+              - column:
+                  name: profileImageUrl
+                  type: varchar(1000)
+              - column:
+                  name: state
+                  type: varchar(10)
+              - column:
+                  name: grade
+                  type: varchar(10)
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updatedAt
+                  type: datetime
