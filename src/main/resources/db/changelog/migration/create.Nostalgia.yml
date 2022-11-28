@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - property:
+      name: point
+      dbms: mysql
+      value: point
+  - property:
+      name: point
+      dbms: h2
+      value: geometry(point)
+  - changeSet:
+      id: create.Nostalgia
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: Nostalgia
+      changes:
+        - createTable:
+            tableName: Nostalgia
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: memberId
+                  type: binary(16)
+              - column:
+                  name: title
+                  type: varchar(100)
+              - column:
+                  name: description
+                  type: varchar(2000)
+              - column:
+                  name: location
+                  type: ${point}
+              - column:
+                  name: visibility
+                  type: varchar(10)
+              - column:
+                  name: thumbnailUrl
+                  type: varchar(1000)
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updatedAt
+                  type: datetime
