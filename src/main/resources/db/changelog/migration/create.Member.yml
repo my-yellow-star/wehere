@@ -24,6 +24,15 @@ databaseChangeLog:
                   name: profileImageUrl
                   type: varchar(1000)
               - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: platformUid
+                  type: varchar(255)
+              - column:
+                  name: platformType
+                  type: varchar(10)
+              - column:
                   name: state
                   type: varchar(10)
               - column:

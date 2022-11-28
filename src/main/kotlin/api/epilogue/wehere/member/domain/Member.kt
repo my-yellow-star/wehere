@@ -8,6 +8,9 @@ import javax.persistence.Enumerated
 @Entity
 class Member(
     var nickname: String,
+    var email: String,
+    val platformUid: String,
+    val platformType: MemberPlatformType,
     var profileImageUrl: String? = null
 ) : BasePersistable() {
     @Enumerated(EnumType.STRING)
@@ -19,6 +22,12 @@ class Member(
     enum class MemberState {
         ACTIVE,
         RESIGNED
+    }
+
+    enum class MemberPlatformType {
+        GOOGLE,
+        APPLE,
+        KAKAO
     }
 
     enum class MemberGrade {
