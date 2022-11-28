@@ -22,10 +22,10 @@ abstract class BasePersistable {
     var version: Int = 0
 
     @CreatedDate
-    var createdAt: Instant = Instant.MIN
+    var createdAt: Instant = Instant.now()
         protected set
 
     @LastModifiedDate
-    var updatedAt: Instant = Instant.MIN
+    var updatedAt: Instant = Instant.now()
         protected set
 }
