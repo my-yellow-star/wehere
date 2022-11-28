@@ -9,14 +9,13 @@ import api.epilogue.wehere.member.domain.MemberRepository
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.justRun
 import io.mockk.mockk
 
 internal class MemberServiceSpec : DescribeSpec({
     val memberRepository = mockk<MemberRepository>()
 
-    describe("CreateMemberUserCase") {
-        justRun { memberRepository.save(any()) }
+    describe("CreateMemberUseCase") {
+        every { memberRepository.save(any()) } returns mockk()
         val createMemberUserCase = CreateMemberUseCase(memberRepository)
 
         context("새로 가입하는 경우") {
