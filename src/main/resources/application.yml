@@ -30,7 +30,7 @@ spring:
     enabled: true
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
     database: mysql
     generate-ddl: false
     properties:
