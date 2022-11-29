@@ -11,13 +11,15 @@ class CreateMemberUseCase(
 ) {
     @Transactional
     fun execute(input: CreateMemberInput) = run {
-        if (isAlreadyExist(input.platformUid, input.platformType))
-            return@run CreateMemberStatus.ALREADY_CREATED
-        memberRepository.save(input.toMember())
-        CreateMemberStatus.SUCCESS
+        getMemberIfExists(input.platformUid, input.platformType)
+            ?.let {
+                return@run CreateMemberOutput.alreadyCreated(it)
+            }
+
+        CreateMemberOutput.success(memberRepository.save(input.toMember()))
     }
 
-    private fun isAlreadyExist(platformUid: String, platformType: MemberPlatformType) =
+    private fun getMemberIfExists(platformUid: String, platformType: MemberPlatformType) =
         memberRepository
-            .findByPlatformUidAndPlatformType(platformUid, platformType) != null
+            .findByPlatformUidAndPlatformType(platformUid, platformType)
 }

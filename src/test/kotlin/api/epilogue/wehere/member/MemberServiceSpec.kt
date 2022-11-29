@@ -15,7 +15,7 @@ internal class MemberServiceSpec : DescribeSpec({
     val memberRepository = mockk<MemberRepository>()
 
     describe("CreateMemberUseCase") {
-        every { memberRepository.save(any()) } returns mockk()
+        every { memberRepository.save(any()) } returns savedMember
         val createMemberUserCase = CreateMemberUseCase(memberRepository)
 
         context("새로 가입하는 경우") {
@@ -26,7 +26,7 @@ internal class MemberServiceSpec : DescribeSpec({
             it("SUCCESS 를 반환한다") {
                 val result = createMemberUserCase
                     .execute(createMemberInput())
-                result shouldBe CreateMemberStatus.SUCCESS
+                result.status shouldBe CreateMemberStatus.SUCCESS
             }
         }
 
@@ -38,7 +38,7 @@ internal class MemberServiceSpec : DescribeSpec({
             it("ALREADY_CREATED 를 반환한다") {
                 val result = createMemberUserCase
                     .execute(createMemberInput())
-                result shouldBe CreateMemberStatus.ALREADY_CREATED
+                result.status shouldBe CreateMemberStatus.ALREADY_CREATED
             }
         }
     }
@@ -46,6 +46,12 @@ internal class MemberServiceSpec : DescribeSpec({
     companion object {
         val existMember = Member(
             nickname = "exist_member",
+            email = "tester@gmail.com",
+            platformUid = "1234567890",
+            platformType = MemberPlatformType.GOOGLE
+        )
+        val savedMember = Member(
+            nickname = "saved_member",
             email = "tester@gmail.com",
             platformUid = "1234567890",
             platformType = MemberPlatformType.GOOGLE
