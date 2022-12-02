@@ -1,27 +1,22 @@
 package api.epilogue.wehere.member.application
 
 import api.epilogue.wehere.member.domain.Member
-import api.epilogue.wehere.member.domain.Member.MemberGrade
-import java.util.UUID
 
 data class CreateMemberOutput(
     val status: CreateMemberStatus,
-    val id: UUID,
-    val grade: MemberGrade
+    val member: Member
 ) {
     companion object {
         fun success(member: Member) =
             CreateMemberOutput(
                 CreateMemberStatus.SUCCESS,
-                member.id,
-                member.grade
+                member
             )
 
         fun alreadyCreated(member: Member) =
             CreateMemberOutput(
                 CreateMemberStatus.ALREADY_CREATED,
-                member.id,
-                member.grade
+                member
             )
     }
 }
