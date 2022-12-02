@@ -8,12 +8,12 @@ import javax.persistence.Id
 import org.hibernate.annotations.Where
 
 @Entity
-@Where(clause = "expiredAt < NOW()")
+@Where(clause = "expiredAt > NOW()")
 class MemberSession(
     val memberId: UUID,
     val token: UUID,
-    val expiredAt: Instant,
-    val createdAt: Instant,
+    val expiredAt: Instant = Instant.now().plus(30, ChronoUnit.DAYS),
+    val createdAt: Instant = Instant.now(),
     @Id
     val id: UUID = UUID.randomUUID()
 ) {
@@ -21,9 +21,7 @@ class MemberSession(
         fun of(oAuth2Member: OAuth2Member) =
             MemberSession(
                 oAuth2Member.id,
-                UUID.randomUUID(),
-                Instant.now().plus(30, ChronoUnit.DAYS),
-                Instant.now()
+                UUID.randomUUID()
             )
     }
 }
