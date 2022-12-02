@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create.MemberSession
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: MemberSession
+      changes:
+        - createTable:
+            tableName: MemberSession
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: memberId
+                  type: binary(16)
+              - column:
+                  name: token
+                  type: binary(16)
+              - column:
+                  name: expiredAt
+                  type: datetime
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
