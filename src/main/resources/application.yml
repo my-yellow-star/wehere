@@ -14,6 +14,14 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "${oauth.google.client-id}"
+            client-secret: "${oauth.google.client-secret}"
+            scope: profile,email
   output:
     ansi:
       enabled: always
