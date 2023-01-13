@@ -9,6 +9,10 @@ data class OAuth2Attribute(
     val profileImage: String?
 ) {
     companion object {
+        private const val GOOGLE_UID_KEY = "sub"
+        private const val GOOGLE_EMAIL_KEY = "email"
+        private const val GOOGLE_PROFILE_IMAGE_KEY = "picture"
+
         fun of(registrationId: String, attributes: Map<String, Any>) =
             when (registrationId) {
                 "google" -> ofGoogle(attributes)
@@ -18,9 +22,9 @@ data class OAuth2Attribute(
         private fun ofGoogle(attributes: Map<String, Any>) =
             OAuth2Attribute(
                 type = MemberPlatformType.GOOGLE,
-                uid = attributes["sub"].toString(),
-                email = attributes["email"].toString(),
-                profileImage = attributes["picture"]?.toString()
+                uid = attributes[GOOGLE_UID_KEY].toString(),
+                email = attributes[GOOGLE_EMAIL_KEY].toString(),
+                profileImage = attributes[GOOGLE_PROFILE_IMAGE_KEY]?.toString()
             )
     }
 }
