@@ -10,6 +10,7 @@ class Member(
     var nickname: String,
     var email: String,
     val platformUid: String,
+    @Enumerated(EnumType.STRING)
     val platformType: MemberPlatformType,
     var profileImageUrl: String? = null
 ) : BasePersistable() {
