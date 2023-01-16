@@ -36,6 +36,7 @@ allOpen {
 object Version {
     const val KOTEST = "5.5.3"
     const val MOCKK = "1.12.4"
+    const val JJWT = "0.11.5"
 }
 
 dependencies {
@@ -48,6 +49,9 @@ dependencies {
     implementation("org.hibernate:hibernate-spatial")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("io.jsonwebtoken:jjwt-api:${Version.JJWT}")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:${Version.JJWT}")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:${Version.JJWT}")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.mysql:mysql-connector-j")

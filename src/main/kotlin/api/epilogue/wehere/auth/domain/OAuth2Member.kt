@@ -10,12 +10,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 
 class OAuth2Member(
     val id: UUID,
-    private val name: String,
-    private val grade: MemberGrade,
-    private val email: String,
-    private val platformUid: String,
-    private val platformType: MemberPlatformType,
-    private val profileImageUrl: String?
+    val nickname: String,
+    val grade: MemberGrade,
+    val email: String,
+    val platformUid: String,
+    val platformType: MemberPlatformType,
+    val profileImageUrl: String?
 ) : OAuth2User {
     companion object {
         fun of(member: Member) = OAuth2Member(
@@ -30,7 +30,7 @@ class OAuth2Member(
     }
 
     override fun getName(): String =
-        name
+        nickname
 
     override fun <A : Any?> getAttribute(name: String): A =
         attributes[name] as A
