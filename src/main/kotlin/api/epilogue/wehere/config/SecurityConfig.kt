@@ -1,5 +1,8 @@
 package api.epilogue.wehere.config
 
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
+import javax.crypto.SecretKey
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -21,4 +24,8 @@ class SecurityConfig(
                 it.defaultSuccessUrl("/api/auth/token")
             }
             .build()
+
+    @Bean
+    fun jwtSecretKey(): SecretKey =
+        Keys.secretKeyFor(SignatureAlgorithm.HS256)
 }
