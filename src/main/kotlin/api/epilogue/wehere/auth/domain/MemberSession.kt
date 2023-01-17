@@ -11,7 +11,6 @@ import org.hibernate.annotations.Where
 @Where(clause = "expiredAt > NOW()")
 class MemberSession(
     val memberId: UUID,
-    val token: UUID,
     val expiredAt: Instant = Instant.now().plus(30, ChronoUnit.DAYS),
     val createdAt: Instant = Instant.now(),
     @Id
