@@ -16,12 +16,4 @@ class MemberSession(
     val createdAt: Instant = Instant.now(),
     @Id
     val id: UUID = UUID.randomUUID()
-) {
-    companion object {
-        fun of(oAuth2Member: OAuth2Member) =
-            MemberSession(
-                oAuth2Member.id,
-                UUID.randomUUID()
-            )
-    }
-}
+)

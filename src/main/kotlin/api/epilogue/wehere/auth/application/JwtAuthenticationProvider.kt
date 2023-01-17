@@ -1,5 +1,7 @@
 package api.epilogue.wehere.auth.application
 
+import api.epilogue.wehere.auth.domain.JwtAuthentication
+import api.epilogue.wehere.auth.domain.MemberAuthentication
 import java.util.UUID
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication

@@ -1,4 +1,4 @@
-package api.epilogue.wehere.auth.application
+package api.epilogue.wehere.auth.domain
 
 import org.springframework.security.authentication.AbstractAuthenticationToken
 

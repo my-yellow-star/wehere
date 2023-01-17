@@ -1,13 +1,12 @@
-package api.epilogue.wehere.auth.application
+package api.epilogue.wehere.auth.domain
 
-import api.epilogue.wehere.member.domain.Member.MemberGrade
 import java.util.UUID
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 data class MemberAuthentication(
-    private val id: UUID,
-    private val grade: String
+    val id: UUID,
+    val grade: String
 ) : Authentication {
     override fun getName(): String = ""
 
@@ -16,20 +15,11 @@ data class MemberAuthentication(
 
     override fun getCredentials() = null
 
-    override fun getDetails() =
-        MemberDetail(
-            id,
-            MemberGrade.valueOf(grade)
-        )
+    override fun getDetails() = null
 
-    override fun getPrincipal() = id
+    override fun getPrincipal() = MemberPrincipal.of(this)
 
     override fun isAuthenticated() = true
 
     override fun setAuthenticated(isAuthenticated: Boolean) {}
-
-    data class MemberDetail(
-        val id: UUID,
-        val grade: MemberGrade
-    )
 }
