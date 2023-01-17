@@ -108,7 +108,13 @@ class SecurityConfig {
 private fun HttpSecurityDsl.setup() =
     apply {
         csrf { disable() }
-
+        headers {
+            cacheControl { disable() }
+            xssProtection {
+                block = true
+                xssProtectionEnabled = true
+            }
+        }
     }
 
 private fun HttpSecurityDsl.setupAuthenticationManager(http: HttpSecurity, provider: AuthenticationProvider) {
