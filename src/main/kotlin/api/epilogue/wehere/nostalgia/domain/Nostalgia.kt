@@ -9,13 +9,15 @@ import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import org.hibernate.annotations.Where
 import org.locationtech.jts.geom.Point
 
 @Entity
+@Where(clause = "visibility != 'NONE'")
 class Nostalgia(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
-    var member: Member,
+    val member: Member,
     var title: String,
     var description: String,
     @Enumerated(EnumType.STRING)
@@ -30,6 +32,11 @@ class Nostalgia(
     enum class NostalgiaVisibility {
         OWNER,
         FRIEND,
-        ALL
+        ALL,
+        NONE // deleted
+    }
+
+    fun delete() {
+        visibility = NostalgiaVisibility.NONE
     }
 }
