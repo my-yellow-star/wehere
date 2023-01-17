@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class CredentialPublisher(
-    private val refreshTokenService: RefreshTokenService,
+    private val memberSessionService: MemberSessionService,
     private val accessTokenService: AccessTokenService
 ) {
     fun publishToken(memberPrincipal: MemberPrincipal): TokenCredential =
         TokenCredential(
             accessTokenService.create(memberPrincipal),
-            refreshTokenService.create(memberPrincipal)
+            memberSessionService.create(memberPrincipal)
         )
 }
