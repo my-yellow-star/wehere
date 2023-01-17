@@ -50,6 +50,9 @@ spring:
       naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
       ddl-auto: none
+jwt:
+  public-key: "${jwt.public-key}"
+  private-key: "${jwt.private-key}"
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587
@@ -61,10 +64,6 @@ spring:
 #          auth: true
 #          starttls:
 #            enable: true
-
-#jwt:
-#  public-key: "${jwt.public-key}"
-#  private-key: "${jwt.private-key}"
 #
 #cloud:
 #  aws:

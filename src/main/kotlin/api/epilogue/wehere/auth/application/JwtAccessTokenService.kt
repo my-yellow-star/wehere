@@ -1,20 +1,14 @@
 package api.epilogue.wehere.auth.application
 
 import api.epilogue.wehere.auth.domain.OAuth2Member
-import io.jsonwebtoken.Jwts
-import javax.crypto.SecretKey
 import org.springframework.stereotype.Component
 
 @Component
-class JwtService(
-    private val secretKey: SecretKey
+class JwtAccessTokenService(
+    private val jwtProcessor: JwtProcessor
 ) : AccessTokenService {
     override fun create(oAuth2Member: OAuth2Member): String =
-        Jwts.builder()
-            .setId("wehere")
-            .setClaims(toClaim(oAuth2Member))
-            .signWith(secretKey)
-            .compact()
+        jwtProcessor.generate(toClaim(oAuth2Member))
 
     private fun toClaim(oAuth2Member: OAuth2Member) =
         mapOf(
