@@ -20,5 +20,7 @@ data class CreateNostalgiaInput(
             latitude,
             longitude,
             images.firstOrNull()
-        )
+        ).apply {
+            addMedia(images)
+        }
 }

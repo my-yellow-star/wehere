@@ -30,6 +30,7 @@ class NostalgiaService(
             title = input.title ?: title
             visibility = input.visibility ?: visibility
             thumbnailUrl = input.images?.firstOrNull() ?: thumbnailUrl
+            input.images?.let { updateMedia(it) }
         }
     }
 

@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create.NostalgiaMedium
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: NostalgiaMedium
+      changes:
+        - createTable:
+            tableName: NostalgiaMedium
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nostalgiaId
+                  type: binary(16)
+              - column:
+                  name: sortIndex
+                  type: int
+              - column:
+                  name: url
+                  type: varchar(1000)
+              - column:
+                  name: thumbnail
+                  type: varchar(1000)
+              - column:
+                  name: type
+                  type: varchar(10)
