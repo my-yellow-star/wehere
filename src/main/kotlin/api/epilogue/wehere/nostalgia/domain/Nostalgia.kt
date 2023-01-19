@@ -1,6 +1,7 @@
 package api.epilogue.wehere.nostalgia.domain
 
 import api.epilogue.wehere.kernel.BasePersistable
+import api.epilogue.wehere.kernel.LocationUtils
 import api.epilogue.wehere.member.domain.Member
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -27,7 +28,7 @@ class Nostalgia(
     var thumbnailUrl: String? = null
 ) : BasePersistable() {
     @Column(columnDefinition = "geometry(point)")
-    val location: Point = LocationFactory.of(latitude, longitude)
+    val location: Point = LocationUtils.toPoint(latitude, longitude)
 
     enum class NostalgiaVisibility {
         OWNER,
