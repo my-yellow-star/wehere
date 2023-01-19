@@ -8,13 +8,13 @@ import org.locationtech.jts.util.GeometricShapeFactory
 
 object LocationUtils {
     fun toPoint(latitude: Double, longitude: Double) =
-        WKTReader().read("Point($latitude $longitude)") as Point
+        WKTReader().read("Point($longitude $latitude)") as Point
 
     fun createCircle(latitude: Double, longitude: Double, radius: Double): Geometry =
         GeometricShapeFactory()
             .apply {
                 setNumPoints(32)
-                setCentre(Coordinate(latitude, longitude))
+                setCentre(Coordinate(longitude, latitude))
                 setSize(radius * 2)
             }
             .createCircle()
