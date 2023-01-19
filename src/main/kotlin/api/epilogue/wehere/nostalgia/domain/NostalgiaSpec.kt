@@ -10,12 +10,12 @@ import org.springframework.data.jpa.domain.Specification
 object NostalgiaSpec {
     fun memberIdEq(memberId: UUID): Specification<Nostalgia> =
         Specification { root, _, builder ->
-            builder.equal(root.get<Member>("member").get<UUID>("id"), memberId)
+            builder.equal(root.get<Member>(Nostalgia::member.name).get<UUID>(Member::id.name), memberId)
         }
 
     fun visibilityEq(visibility: NostalgiaVisibility): Specification<Nostalgia> =
         Specification { root, _, builder ->
-            builder.equal(root.get<NostalgiaVisibility>("visibility"), visibility)
+            builder.equal(root.get<NostalgiaVisibility>(Nostalgia::visibility.name), visibility)
         }
 
     fun filterVisible(memberId: UUID): Specification<Nostalgia> =
@@ -27,7 +27,7 @@ object NostalgiaSpec {
                 builder.function(
                     "distance_sphere",
                     Double::class.java,
-                    root.get<Point>("location"),
+                    root.get<Point>(Nostalgia::location.name),
                     builder.literal(point)
                 ),
                 distance
@@ -42,7 +42,7 @@ object NostalgiaSpec {
                     builder.function(
                         "distance_sphere",
                         Double::class.java,
-                        root.get<Point>("location"),
+                        root.get<Point>(Nostalgia::location.name),
                         builder.literal(point)
                     )
                 )
