@@ -9,6 +9,7 @@ import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import javax.persistence.EntityManager
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -33,6 +34,12 @@ class NostalgiaRepositoryTests @Autowired constructor(
             platformType = MemberPlatformType.GOOGLE
         )
         memberRepository.save(member)
+    }
+
+    @BeforeEach
+    fun clear() {
+        memberRepository.deleteAll()
+        nostalgiaRepository.deleteAll()
     }
 
     @Test
@@ -84,6 +91,31 @@ class NostalgiaRepositoryTests @Autowired constructor(
         Assertions.assertTrue(resultIds.contains(dummyList[2].id))
         Assertions.assertTrue(resultIds.contains(dummyList[3].id).not())
         Assertions.assertTrue(resultIds.contains(dummyList[4].id).not())
+    }
+
+    @Test
+    @DisplayName("추억 조회 시 거리순 정렬")
+    fun selectOrderByDistance() {
+        val baseLatitude = 2.5
+        val baseLongitude = 2.5
+        val member = memberRepository.findAll().first()
+        val dummyList = listOf(
+            createDummyNostalgia(member, 1.0, 1.0),
+            createDummyNostalgia(member, 1.0, 2.0),
+            createDummyNostalgia(member, 2.0, 3.0),
+            createDummyNostalgia(member, 3.0, 4.0),
+            createDummyNostalgia(member, 5.0, 6.0)
+        )
+        nostalgiaRepository.saveAll(dummyList)
+        val query = entityManager.createQuery(
+            "select n from Nostalgia n order by distance_sphere(n.location,  Point(:x, :y))",
+            Nostalgia::class.java
+        )
+        query.setParameter("x", baseLongitude)
+        query.setParameter("y", baseLatitude)
+        val result = query.resultList
+        Assertions.assertEquals(result.first().id, dummyList[2].id)
+        Assertions.assertEquals(result[1].id, dummyList[1].id)
     }
 
     private fun createDummyNostalgia(member: Member, latitude: Double, longitude: Double) =
