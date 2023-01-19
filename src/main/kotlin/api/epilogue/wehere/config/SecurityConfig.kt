@@ -47,7 +47,12 @@ class SecurityConfig {
                 }
                 authorizeRequests { authorize(anyRequest, permitAll) }
                 setupAuthenticationManager(http, sessionAuthenticationProvider)
-                addAuthenticationFilter(SessionAuthenticationFilter(AnyRequestMatcher.INSTANCE))
+                addAuthenticationFilter(
+                    SessionAuthenticationFilter(
+                        AnyRequestMatcher.INSTANCE,
+                        authenticationManager!!
+                    )
+                )
                 httpBasic {
                     authenticationEntryPoint = AuthenticationExceptionEntryPoint()
                 }
@@ -95,7 +100,7 @@ class SecurityConfig {
                 }
                 authorizeRequests { authorize(anyRequest) }
                 setupAuthenticationManager(http, jwtAuthenticationProvider)
-                addAuthenticationFilter(JwtAuthenticationFilter(AnyRequestMatcher.INSTANCE))
+                addAuthenticationFilter(JwtAuthenticationFilter(AnyRequestMatcher.INSTANCE, authenticationManager!!))
                 httpBasic {
                     authenticationEntryPoint = AuthenticationExceptionEntryPoint()
                 }

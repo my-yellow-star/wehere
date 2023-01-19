@@ -10,7 +10,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.util.matcher.RequestMatcher
 
 abstract class AbstractMemberAuthenticationFilter(
-    requestMatcher: RequestMatcher
+    requestMatcher: RequestMatcher,
+    authenticationManager: AuthenticationManager
 ) : AbstractAuthenticationProcessingFilter(requestMatcher) {
     object EmptyHandler : AuthenticationSuccessHandler {
         override fun onAuthenticationSuccess(
@@ -19,6 +20,10 @@ abstract class AbstractMemberAuthenticationFilter(
             authentication: Authentication?
         ) {
         }
+    }
+
+    init {
+        setup(authenticationManager)
     }
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse?): Authentication =
