@@ -1,0 +1,10 @@
+*
+
+!gradlew
+!gradle
+!build.gradle.kts
+!settings.gradle.kts
+!src/main
+
+!**/*.yml
+#**/*-secret.yml
