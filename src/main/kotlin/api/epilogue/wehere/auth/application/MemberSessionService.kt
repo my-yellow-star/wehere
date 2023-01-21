@@ -26,6 +26,11 @@ class MemberSessionService(
             }
             ?: throw InvalidSessionException()
 
+    @Transactional
+    fun expireAll(memberId: UUID) {
+        memberSessionRepository.deleteByMemberId(memberId)
+    }
+
     private fun toMemberSession(memberPrincipal: MemberPrincipal) =
         MemberSession(memberPrincipal.id)
 }

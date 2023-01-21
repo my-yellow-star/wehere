@@ -3,4 +3,6 @@ package api.epilogue.wehere.auth.domain
 import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface MemberSessionRepository : JpaRepository<MemberSession, UUID>
+interface MemberSessionRepository : JpaRepository<MemberSession, UUID> {
+    fun deleteByMemberId(memberId: UUID): Long
+}
