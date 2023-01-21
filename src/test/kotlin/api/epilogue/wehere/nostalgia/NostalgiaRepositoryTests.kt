@@ -8,8 +8,8 @@ import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import javax.persistence.EntityManager
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,8 +17,10 @@ import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.test.context.ActiveProfiles
 
 @DataJpaTest
+@ActiveProfiles("local")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class NostalgiaRepositoryTests @Autowired constructor(
@@ -26,7 +28,7 @@ class NostalgiaRepositoryTests @Autowired constructor(
     private val memberRepository: MemberRepository,
     private val entityManager: EntityManager
 ) {
-    @BeforeAll
+    @BeforeEach
     fun saveMember() {
         val member = Member(
             nickname = "member_123",
@@ -37,8 +39,9 @@ class NostalgiaRepositoryTests @Autowired constructor(
         memberRepository.save(member)
     }
 
-    @BeforeEach
+    @AfterEach
     fun clear() {
+        memberRepository.deleteAll()
         nostalgiaRepository.deleteAll()
     }
 
@@ -59,8 +62,8 @@ class NostalgiaRepositoryTests @Autowired constructor(
         )
         val saved = nostalgiaRepository.save(nostalgia)
         Assertions.assertEquals(saved.member.nickname, "member_123")
-        Assertions.assertEquals(saved.location.x, latitude)
-        Assertions.assertEquals(saved.location.y, longitude)
+        Assertions.assertEquals(saved.location.x, longitude)
+        Assertions.assertEquals(saved.location.y, latitude)
     }
 
     @Test
