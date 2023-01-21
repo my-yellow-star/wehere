@@ -4,6 +4,7 @@ import api.epilogue.wehere.error.ApiError
 import api.epilogue.wehere.error.ErrorCause
 import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
+import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import java.util.UUID
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -38,6 +39,14 @@ class NostalgiaService(
     fun delete(memberId: UUID, nostalgiaId: UUID) {
         findNostalgiaOrThrows(memberId, nostalgiaId)
             .delete()
+    }
+
+    @Transactional
+    fun deleteAll(memberId: UUID) {
+        nostalgiaRepository.findAll(NostalgiaSpec.memberIdEq(memberId))
+            .forEach {
+                it.delete()
+            }
     }
 
     private fun findNostalgiaOrThrows(memberId: UUID, nostalgiaId: UUID) =
