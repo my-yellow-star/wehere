@@ -13,13 +13,13 @@ data class OAuth2Attribute(
         private const val GOOGLE_EMAIL_KEY = "email"
         private const val GOOGLE_PROFILE_IMAGE_KEY = "picture"
 
-        fun of(registrationId: String, attributes: Map<String, Any>) =
+        fun of(registrationId: String, attributes: Map<String, Any?>) =
             when (registrationId) {
                 "google" -> ofGoogle(attributes)
                 else -> TODO()
             }
 
-        private fun ofGoogle(attributes: Map<String, Any>) =
+        private fun ofGoogle(attributes: Map<String, Any?>) =
             OAuth2Attribute(
                 type = MemberPlatformType.GOOGLE,
                 uid = attributes[GOOGLE_UID_KEY].toString(),

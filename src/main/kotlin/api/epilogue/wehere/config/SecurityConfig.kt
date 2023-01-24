@@ -3,6 +3,8 @@ package api.epilogue.wehere.config
 import api.epilogue.wehere.auth.application.AbstractMemberAuthenticationFilter
 import api.epilogue.wehere.auth.application.JwtAuthenticationFilter
 import api.epilogue.wehere.auth.application.JwtAuthenticationProvider
+import api.epilogue.wehere.auth.application.OAuth2TokenAuthenticationFilter
+import api.epilogue.wehere.auth.application.OAuth2TokenAuthenticationProvider
 import api.epilogue.wehere.auth.application.SessionAuthenticationFilter
 import api.epilogue.wehere.auth.application.SessionAuthenticationProvider
 import api.epilogue.wehere.auth.exception.AuthenticationExceptionEntryPoint
@@ -21,6 +23,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.security.web.util.matcher.AnyRequestMatcher
 
 @EnableWebSecurity
@@ -53,9 +56,6 @@ class SecurityConfig {
                         authenticationManager!!
                     )
                 )
-                httpBasic {
-                    authenticationEntryPoint = AuthenticationExceptionEntryPoint()
-                }
             }
             return http.build()
         }
@@ -65,6 +65,7 @@ class SecurityConfig {
     @Configuration
     class OAuth2Config(
         private val oAuth2UserService: OAuth2UserService<OAuth2UserRequest, OAuth2User>,
+        private val oAuth2TokenAuthenticationProvider: OAuth2TokenAuthenticationProvider
     ) {
         @Bean
         fun oAuth2FilterChain(http: HttpSecurity): SecurityFilterChain? {
@@ -80,6 +81,13 @@ class SecurityConfig {
                     }
                     defaultSuccessUrl("/oauth2/credential", true)
                 }
+                setupAuthenticationManager(http, oAuth2TokenAuthenticationProvider)
+                addAuthenticationFilter(
+                    OAuth2TokenAuthenticationFilter(
+                        AntPathRequestMatcher("/oauth2/authorize"),
+                        authenticationManager!!
+                    )
+                )
             }
             return http.build()
         }
@@ -101,9 +109,6 @@ class SecurityConfig {
                 authorizeRequests { authorize(anyRequest) }
                 setupAuthenticationManager(http, jwtAuthenticationProvider)
                 addAuthenticationFilter(JwtAuthenticationFilter(AnyRequestMatcher.INSTANCE, authenticationManager!!))
-                httpBasic {
-                    authenticationEntryPoint = AuthenticationExceptionEntryPoint()
-                }
             }
             return http.build()
         }
@@ -119,6 +124,9 @@ private fun HttpSecurityDsl.setup() =
                 block = true
                 xssProtectionEnabled = true
             }
+        }
+        httpBasic {
+            authenticationEntryPoint = AuthenticationExceptionEntryPoint()
         }
     }
 

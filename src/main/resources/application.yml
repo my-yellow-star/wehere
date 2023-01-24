@@ -53,6 +53,8 @@ spring:
 jwt:
   public-key: "${jwt.public-key}"
   private-key: "${jwt.private-key}"
+google-api:
+  client-ids: "${google-api.client-ids}"
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587
