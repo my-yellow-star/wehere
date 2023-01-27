@@ -38,7 +38,7 @@ class NostalgiaController(
             NostalgiaCondition.RECENT -> getter.getListRecent(
                 principal.id,
                 current,
-                pageRequest.toPageable(Sort.Order.asc(Nostalgia::createdAt.name))
+                pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
             )
             NostalgiaCondition.MEMBER -> getter.getListByMember(
                 principal.id,
