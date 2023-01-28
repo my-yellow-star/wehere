@@ -19,10 +19,10 @@ class NostalgiaGetter(
         maxDistance: Int?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
-        val spec = NostalgiaSpec.filterVisible(memberId)
+        var spec = NostalgiaSpec.filterVisible(memberId)
             .and(NostalgiaSpec.orderByDistance(current.toPoint()))
         if (maxDistance != null)
-            spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance.toDouble()))
+            spec = spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance.toDouble()))
         val result = repository.findAll(spec, pageable)
         return PageResponse.of(result) {
             NostalgiaListOutput.of(it, current)
