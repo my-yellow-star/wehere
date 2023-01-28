@@ -16,13 +16,13 @@ class NostalgiaGetter(
     fun getListAround(
         memberId: UUID,
         current: Location,
-        maxDistance: Int?,
+        maxDistance: Double?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
         var spec = NostalgiaSpec.filterVisible(memberId)
             .and(NostalgiaSpec.orderByDistance(current.toPoint()))
         if (maxDistance != null)
-            spec = spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance.toDouble()))
+            spec = spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance))
         val result = repository.findAll(spec, pageable)
         return PageResponse.of(result) {
             NostalgiaListOutput.of(it, current)

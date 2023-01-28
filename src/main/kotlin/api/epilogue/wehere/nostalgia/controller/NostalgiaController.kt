@@ -32,7 +32,7 @@ class NostalgiaController(
         pageRequest: PageRequest,
         condition: NostalgiaCondition,
         current: Location?,
-        maxDistance: Int?
+        maxDistance: Double?
     ) =
         when (condition) {
             NostalgiaCondition.RECENT -> getter.getListRecent(
