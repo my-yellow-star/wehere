@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - property:
+      name: point
+      dbms: mysql
+      value: point
+  - property:
+      name: point
+      dbms: h2
+      value: geometry(point)
+  - changeSet:
+      id: create.NostalgiaStatistic
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: NostalgiaStatistic
+      changes:
+        - createTable:
+            tableName: NostalgiaStatistic
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: memberId
+                  type: binary(16)
+              - column:
+                  name: total
+                  type: bigint
+              - column:
+                  name: accumulatedDistance
+                  type: double
+              - column:
+                  name: lastLocation
+                  type: ${point}
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updatedAt
+                  type: datetime

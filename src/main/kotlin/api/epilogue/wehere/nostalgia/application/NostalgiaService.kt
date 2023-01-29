@@ -5,6 +5,8 @@ import api.epilogue.wehere.error.ErrorCause
 import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
+import api.epilogue.wehere.nostalgia.domain.NostalgiaStatistic
+import api.epilogue.wehere.nostalgia.domain.NostalgiaStatisticRepository
 import java.util.UUID
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -13,13 +15,18 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NostalgiaService(
     private val memberRepository: MemberRepository,
-    private val nostalgiaRepository: NostalgiaRepository
+    private val nostalgiaRepository: NostalgiaRepository,
+    private val statisticRepository: NostalgiaStatisticRepository
 ) {
     @Transactional
     fun create(memberId: UUID, input: CreateNostalgiaInput): CreateNostalgiaOutput {
         val member = memberRepository.getReferenceById(memberId)
         val nostalgia = input.toNostalgia(member)
         nostalgiaRepository.save(nostalgia)
+        val statistic = statisticRepository.findByMemberId(memberId)
+            ?: NostalgiaStatistic(member)
+        statistic.onNostalgiaCreated(nostalgia)
+        statisticRepository.save(statistic)
         return CreateNostalgiaOutput(nostalgia.id)
     }
 
