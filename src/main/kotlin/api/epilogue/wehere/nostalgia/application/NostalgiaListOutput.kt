@@ -1,6 +1,7 @@
 package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.member.application.MemberListOutput
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import java.time.Instant
 import java.util.UUID

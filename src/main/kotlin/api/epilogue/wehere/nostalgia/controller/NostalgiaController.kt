@@ -3,7 +3,7 @@ package api.epilogue.wehere.nostalgia.controller
 import api.epilogue.wehere.auth.domain.MemberPrincipal
 import api.epilogue.wehere.client.PageRequest
 import api.epilogue.wehere.nostalgia.application.CreateNostalgiaInput
-import api.epilogue.wehere.nostalgia.application.Location
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.application.NostalgiaGetter
 import api.epilogue.wehere.nostalgia.application.NostalgiaService
 import api.epilogue.wehere.nostalgia.application.UpdateNostalgiaInput

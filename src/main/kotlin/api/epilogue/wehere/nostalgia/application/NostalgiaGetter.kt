@@ -1,6 +1,7 @@
 package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.client.PageResponse
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import java.util.UUID

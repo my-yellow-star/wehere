@@ -1,4 +1,4 @@
-package api.epilogue.wehere.nostalgia.application
+package api.epilogue.wehere.nostalgia.domain
 
 import api.epilogue.wehere.kernel.LocationUtils
 import org.locationtech.jts.geom.Point
