@@ -1,8 +1,9 @@
 package api.epilogue.wehere.client.controller
 
+import api.epilogue.wehere.auth.domain.MemberPrincipal
 import api.epilogue.wehere.client.application.FileUploader
-import java.util.UUID
 import org.springframework.http.MediaType
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
@@ -15,6 +16,9 @@ class FileUploadController(
     private val uploader: FileUploader
 ) {
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun post(@RequestPart("file") file: MultipartFile) =
-        uploader.upload(file, UUID.randomUUID().toString())
+    fun post(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @RequestPart("file") file: MultipartFile
+    ) =
+        uploader.upload(principal.id, file)
 }

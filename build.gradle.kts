@@ -53,7 +53,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("io.jsonwebtoken:jjwt-api:${Version.JJWT}")
     implementation("com.google.api-client:google-api-client:${Version.GOOGLE_API}")
-    implementation("org.springframework.cloud:spring-cloud-starter-aws:${Version.AWS}")
+    implementation(platform("com.amazonaws:aws-java-sdk-bom:1.11.1000"))
+    implementation("com.amazonaws:aws-java-sdk-s3")
+
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:${Version.JJWT}")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:${Version.JJWT}")
