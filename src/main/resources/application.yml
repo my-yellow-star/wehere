@@ -55,6 +55,17 @@ jwt:
   private-key: "${jwt.private-key}"
 google-api:
   client-ids: "${google-api.client-ids}"
+cloud:
+  aws:
+    credentials:
+      access-key: "${aws.access-key}"
+      secret-key: "${aws.secret-key}"
+    s3:
+      bucket: "${aws.bucket}"
+    region:
+      static: "${aws.region}"
+    stack:
+      auto: false
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587
@@ -67,14 +78,3 @@ google-api:
 #          starttls:
 #            enable: true
 #
-#cloud:
-#  aws:
-#    credentials:
-#      access-key: "${aws.access-key}"
-#      secret-key: "${aws.secret-key}"
-#    s3:
-#      bucket: "${aws.bucket}"
-#    region:
-#      static: "${aws.region}"
-#    stack:
-#      auto: false

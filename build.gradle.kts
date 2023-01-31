@@ -38,6 +38,7 @@ object Version {
     const val MOCKK = "1.12.4"
     const val JJWT = "0.11.5"
     const val GOOGLE_API = "2.1.3"
+    const val AWS = "2.2.6.RELEASE"
 }
 
 dependencies {
@@ -52,6 +53,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("io.jsonwebtoken:jjwt-api:${Version.JJWT}")
     implementation("com.google.api-client:google-api-client:${Version.GOOGLE_API}")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws:${Version.AWS}")
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:${Version.JJWT}")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:${Version.JJWT}")
