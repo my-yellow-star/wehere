@@ -31,7 +31,7 @@ jobs:
       - name: Api build and push
         uses: docker/build-push-action@v2
         with:
-          file: develop.Dockerfile
+          file: Develop.Dockerfile
           tags: ghcr.io/my-yellow-star/wehere:${{ github.sha }}
           labels: org.opencontainers.image.source=${{ github.event.repository.html_url }}
           context: .
