@@ -53,6 +53,13 @@ class NostalgiaController(
             )
         }
 
+    @GetMapping("/{nostalgiaId}")
+    fun getDetail(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @PathVariable nostalgiaId: UUID,
+        current: Location?,
+    ) = getter.getDetail(principal.id, nostalgiaId, current)
+
     @PostMapping
     fun create(
         @AuthenticationPrincipal principal: MemberPrincipal,

@@ -1,11 +1,15 @@
 package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.client.PageResponse
+import api.epilogue.wehere.error.ApiError
+import api.epilogue.wehere.error.ErrorCause
 import api.epilogue.wehere.nostalgia.domain.Location
+import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import java.util.UUID
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -55,4 +59,20 @@ class NostalgiaGetter(
             NostalgiaListOutput.of(it, current)
         }
     }
+
+    @Transactional(readOnly = true)
+    fun getDetail(
+        memberId: UUID,
+        nostalgiaId: UUID,
+        current: Location?,
+    ): NostalgiaOutput {
+        val nostalgia = repository.findByIdOrNull(nostalgiaId)
+            ?: throw ApiError(ErrorCause.ENTITY_NOT_FOUND)
+        if (!isVisible(memberId, nostalgia))
+            throw ApiError(ErrorCause.NOT_OWNER)
+        return NostalgiaOutput.of(nostalgia, current)
+    }
+
+    private fun isVisible(memberId: UUID, nostalgia: Nostalgia) =
+        nostalgia.member.id == memberId || nostalgia.visibility == Nostalgia.NostalgiaVisibility.ALL
 }
