@@ -6,7 +6,6 @@ import api.epilogue.wehere.nostalgia.application.CreateNostalgiaInput
 import api.epilogue.wehere.nostalgia.application.NostalgiaGetter
 import api.epilogue.wehere.nostalgia.application.NostalgiaService
 import api.epilogue.wehere.nostalgia.application.UpdateNostalgiaInput
-import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import java.util.UUID
 import org.springframework.data.domain.Sort
@@ -31,23 +30,23 @@ class NostalgiaController(
         @AuthenticationPrincipal principal: MemberPrincipal,
         pageRequest: PageRequest,
         condition: NostalgiaCondition,
-        current: Location?,
+        current: LocationInput,
         maxDistance: Double?
     ) =
         when (condition) {
             NostalgiaCondition.RECENT -> getter.getListRecent(
                 principal.id,
-                current,
+                current.toLocation(),
                 pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
             )
             NostalgiaCondition.MEMBER -> getter.getListByMember(
                 principal.id,
-                current,
+                current.toLocation(),
                 pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
             )
             NostalgiaCondition.AROUND -> getter.getListAround(
                 principal.id,
-                current!!,
+                current.toLocation()!!,
                 maxDistance,
                 pageRequest.toPageable()
             )
@@ -57,8 +56,8 @@ class NostalgiaController(
     fun getDetail(
         @AuthenticationPrincipal principal: MemberPrincipal,
         @PathVariable nostalgiaId: UUID,
-        current: Location?,
-    ) = getter.getDetail(principal.id, nostalgiaId, current)
+        current: LocationInput,
+    ) = getter.getDetail(principal.id, nostalgiaId, current.toLocation())
 
     @PostMapping
     fun create(
