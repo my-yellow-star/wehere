@@ -3,3 +3,5 @@ databaseChangeLog:
 
   - includeAll:
       path: classpath:db/changelog/migration
+  - includeAll:
+      path: classpath:db/changelog/alteration

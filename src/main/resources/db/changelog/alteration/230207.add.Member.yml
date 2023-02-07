@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 230207.add.Member
+      author: chan
+      changes:
+        - addColumn:
+            tableName: Member
+            columns:
+              - column:
+                  name: description
+                  type: varchar(500)
+              - column:
+                  name: backgroundImageUrl
+                  type: varchar(1000)

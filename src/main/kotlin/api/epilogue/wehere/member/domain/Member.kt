@@ -14,7 +14,9 @@ class Member(
     val platformUid: String,
     @Enumerated(EnumType.STRING)
     val platformType: MemberPlatformType,
-    var profileImageUrl: String? = null
+    var profileImageUrl: String? = null,
+    var backgroundImageUrl: String? = null,
+    var description: String? = null
 ) : BasePersistable() {
     @Enumerated(EnumType.STRING)
     var state: MemberState = MemberState.ACTIVE

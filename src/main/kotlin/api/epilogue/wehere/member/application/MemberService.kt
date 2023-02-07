@@ -19,6 +19,8 @@ class MemberService(
         member.apply {
             nickname = input.nickname ?: nickname
             profileImageUrl = input.profileImageUrl ?: profileImageUrl
+            backgroundImageUrl = input.backgroundImageUrl ?: backgroundImageUrl
+            description = input.description ?: description
         }
     }
 
