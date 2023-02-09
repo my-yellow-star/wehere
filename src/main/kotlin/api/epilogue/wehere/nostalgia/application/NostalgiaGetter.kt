@@ -49,11 +49,14 @@ class NostalgiaGetter(
 
     @Transactional(readOnly = true)
     fun getListByMember(
+        principalId: UUID,
         memberId: UUID,
         current: Location?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
-        val spec = NostalgiaSpec.memberIdEq(memberId)
+        val spec = NostalgiaSpec
+            .memberIdEq(memberId)
+            .and(NostalgiaSpec.filterVisible(principalId))
         val result = repository.findAll(spec, pageable)
         return PageResponse.of(result) {
             NostalgiaListOutput.of(it, current)

@@ -28,6 +28,7 @@ class NostalgiaController(
     @GetMapping
     fun get(
         @AuthenticationPrincipal principal: MemberPrincipal,
+        memberId: UUID?,
         pageRequest: PageRequest,
         condition: NostalgiaCondition,
         current: LocationInput,
@@ -41,6 +42,7 @@ class NostalgiaController(
             )
             NostalgiaCondition.MEMBER -> getter.getListByMember(
                 principal.id,
+                memberId ?: principal.id,
                 current.toLocation(),
                 pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
             )
