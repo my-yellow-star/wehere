@@ -47,6 +47,9 @@ class NostalgiaService(
     fun delete(memberId: UUID, nostalgiaId: UUID) {
         findNostalgiaOrThrows(memberId, nostalgiaId)
             .delete()
+        statisticRepository
+            .findByMemberId(memberId)
+            ?.onNostalgiaDeleted()
     }
 
     @Transactional

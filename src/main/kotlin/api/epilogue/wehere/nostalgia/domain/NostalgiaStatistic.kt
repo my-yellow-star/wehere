@@ -24,4 +24,8 @@ class NostalgiaStatistic(
         }
         lastLocation = nostalgia.location
     }
+
+    fun onNostalgiaDeleted() {
+        total -= 1
+    }
 }
