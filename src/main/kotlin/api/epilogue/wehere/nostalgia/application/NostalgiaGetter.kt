@@ -19,13 +19,17 @@ class NostalgiaGetter(
 ) {
     @Transactional(readOnly = true)
     fun getListAround(
-        memberId: UUID,
+        principalId: UUID,
+        memberId: UUID?,
         current: Location,
         maxDistance: Double?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
-        var spec = NostalgiaSpec.filterVisible(memberId)
+        var spec = NostalgiaSpec.filterVisible(principalId)
             .and(NostalgiaSpec.orderByDistance(current.toPoint()))
+        if (memberId != null) {
+            spec = spec.and(NostalgiaSpec.memberIdEq(memberId))
+        }
         if (maxDistance != null)
             spec = spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance))
         val result = repository.findAll(spec, pageable)
@@ -36,27 +40,15 @@ class NostalgiaGetter(
 
     @Transactional(readOnly = true)
     fun getListRecent(
-        memberId: UUID,
-        current: Location?,
-        pageable: Pageable
-    ): PageResponse<NostalgiaListOutput> {
-        val spec = NostalgiaSpec.filterVisible(memberId)
-        val result = repository.findAll(spec, pageable)
-        return PageResponse.of(result) {
-            NostalgiaListOutput.of(it, current)
-        }
-    }
-
-    @Transactional(readOnly = true)
-    fun getListByMember(
         principalId: UUID,
-        memberId: UUID,
+        memberId: UUID?,
         current: Location?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
-        val spec = NostalgiaSpec
-            .memberIdEq(memberId)
-            .and(NostalgiaSpec.filterVisible(principalId))
+        var spec = NostalgiaSpec.filterVisible(principalId)
+        if (memberId != null) {
+            spec = spec.and(NostalgiaSpec.memberIdEq(memberId))
+        }
         val result = repository.findAll(spec, pageable)
         return PageResponse.of(result) {
             NostalgiaListOutput.of(it, current)

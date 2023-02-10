@@ -38,17 +38,13 @@ class NostalgiaController(
         when (condition) {
             NostalgiaCondition.RECENT -> getter.getListRecent(
                 principal.id,
-                current.toLocation(),
-                pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
-            )
-            NostalgiaCondition.MEMBER -> getter.getListByMember(
-                principal.id,
-                memberId ?: principal.id,
+                memberId,
                 current.toLocation(),
                 pageRequest.toPageable(Sort.Order.desc(Nostalgia::createdAt.name))
             )
             NostalgiaCondition.AROUND -> getter.getListAround(
                 principal.id,
+                memberId,
                 current.toLocation()!!,
                 maxDistance,
                 pageRequest.toPageable()
