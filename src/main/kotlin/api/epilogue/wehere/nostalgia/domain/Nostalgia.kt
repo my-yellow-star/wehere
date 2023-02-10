@@ -28,7 +28,10 @@ class Nostalgia(
     var visibility: NostalgiaVisibility,
     latitude: Double,
     longitude: Double,
-    var thumbnailUrl: String? = null
+    var thumbnailUrl: String? = null,
+    @Enumerated(EnumType.STRING)
+    var markerColor: MarkerColor = MarkerColor.BLUE_GREEN,
+    val address: String? = null
 ) : BasePersistable() {
     @Column(columnDefinition = "geometry(point)")
     val location: Point = LocationUtils.toPoint(latitude, longitude)

@@ -2,6 +2,7 @@ package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.member.application.MemberListOutput
 import api.epilogue.wehere.nostalgia.domain.Location
+import api.epilogue.wehere.nostalgia.domain.MarkerColor
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import java.time.Instant
 import java.util.UUID
@@ -17,6 +18,8 @@ data class NostalgiaOutput(
     val images: List<String>,
     val createdAt: Instant,
     val visibility: Nostalgia.NostalgiaVisibility,
+    val markerColor: MarkerColor,
+    val address: String?
 ) {
     companion object {
         fun of(nostalgia: Nostalgia, current: Location?) = NostalgiaOutput(
@@ -29,7 +32,9 @@ data class NostalgiaOutput(
             thumbnail = nostalgia.thumbnailUrl,
             images = nostalgia.media.map { it.url },
             createdAt = nostalgia.createdAt,
-            visibility = nostalgia.visibility
+            visibility = nostalgia.visibility,
+            markerColor = nostalgia.markerColor,
+            address = nostalgia.address
         )
     }
 }

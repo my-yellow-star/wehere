@@ -2,7 +2,9 @@ package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.member.application.MemberListOutput
 import api.epilogue.wehere.nostalgia.domain.Location
+import api.epilogue.wehere.nostalgia.domain.MarkerColor
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
+import api.epilogue.wehere.nostalgia.domain.Nostalgia.NostalgiaVisibility
 import java.time.Instant
 import java.util.UUID
 
@@ -14,7 +16,9 @@ data class NostalgiaListOutput(
     val location: Location,
     val distance: Int?,
     val thumbnail: String?,
-    val createdAt: Instant
+    val createdAt: Instant,
+    val visibility: NostalgiaVisibility,
+    val markerColor: MarkerColor
 ) {
     companion object {
         fun of(nostalgia: Nostalgia, current: Location?) = NostalgiaListOutput(
@@ -26,6 +30,8 @@ data class NostalgiaListOutput(
             distance = current?.let { Location.of(nostalgia.location).distance(it).toInt() },
             thumbnail = nostalgia.thumbnailUrl,
             createdAt = nostalgia.createdAt,
+            visibility = nostalgia.visibility,
+            markerColor = nostalgia.markerColor
         )
     }
 }

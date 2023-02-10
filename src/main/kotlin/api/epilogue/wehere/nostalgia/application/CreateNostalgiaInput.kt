@@ -1,6 +1,7 @@
 package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.member.domain.Member
+import api.epilogue.wehere.nostalgia.domain.MarkerColor
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
 
 data class CreateNostalgiaInput(
@@ -9,7 +10,8 @@ data class CreateNostalgiaInput(
     val visibility: Nostalgia.NostalgiaVisibility,
     val latitude: Double,
     val longitude: Double,
-    val images: List<String>
+    val images: List<String>,
+    val markerColor: MarkerColor
 ) {
     fun toNostalgia(member: Member) =
         Nostalgia(
@@ -19,7 +21,8 @@ data class CreateNostalgiaInput(
             visibility,
             latitude,
             longitude,
-            images.firstOrNull()
+            images.firstOrNull(),
+            markerColor
         ).apply {
             addMedia(images)
         }

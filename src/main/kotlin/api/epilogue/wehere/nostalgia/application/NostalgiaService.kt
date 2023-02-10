@@ -38,6 +38,7 @@ class NostalgiaService(
             title = input.title ?: title
             visibility = input.visibility ?: visibility
             thumbnailUrl = input.images?.firstOrNull() ?: thumbnailUrl
+            markerColor = input.markerColor ?: markerColor
             input.images?.let { updateMedia(it) }
         }
     }

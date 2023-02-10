@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 230210.add.Nostalgia
+      author: chan
+      changes:
+        - addColumn:
+            tableName: Nostalgia
+            columns:
+              - column:
+                  name: markerColor
+                  type: varchar(50)
+                  defaultValue: BLUE_GREEN
+              - column:
+                  name: address
+                  type: varchar(255)
