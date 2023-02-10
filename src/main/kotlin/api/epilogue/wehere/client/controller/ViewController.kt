@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ViewController {
+    @GetMapping("/health-check")
+    fun healthCheck() = ""
+
     @GetMapping("/privacy-policy")
     fun privacyPolicy() = PrivacyPolicy.html
 }
