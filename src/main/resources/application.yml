@@ -66,6 +66,9 @@ cloud:
       static: "${aws.region}"
     stack:
       auto: false
+apple:
+  issuer: "${apple.issuer}"
+  client-id: "${client-id}"
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587

@@ -39,6 +39,7 @@ object Version {
     const val JJWT = "0.11.5"
     const val GOOGLE_API = "2.1.3"
     const val AWS = "2.2.6.RELEASE"
+    const val OPEN_FEIGN = "3.1.5"
 }
 
 dependencies {
@@ -55,6 +56,7 @@ dependencies {
     implementation("com.google.api-client:google-api-client:${Version.GOOGLE_API}")
     implementation(platform("com.amazonaws:aws-java-sdk-bom:1.11.1000"))
     implementation("com.amazonaws:aws-java-sdk-s3")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:${Version.OPEN_FEIGN}")
 
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:${Version.JJWT}")
