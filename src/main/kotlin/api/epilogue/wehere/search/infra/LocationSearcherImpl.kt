@@ -17,18 +17,26 @@ class LocationSearcherImpl(
 ) : LocationSearcher {
     override fun search(input: LocationSearchInput): LocationSearchResult =
         when (input.country) {
-            LocationSearchCountry.KOREA -> searchKR(input.keyword, input.page)
+            LocationSearchCountry.KOREA -> searchKR(input)
             LocationSearchCountry.OTHER -> TODO()
         }
 
-    private fun searchKR(keyword: String, page: Int): LocationSearchResult {
+    private fun searchKR(input: LocationSearchInput): LocationSearchResult {
         val response = kakaoMapClient
-            .searchKeyword(keyword, page, kakaoProperties.mapApiKey)
+            .searchKeyword(
+                keyword = input.keyword,
+                page = input.page,
+                longitude = input.current.longitude,
+                latitude = input.current.latitude,
+                apiKey = kakaoProperties.mapApiKey
+            )
         val items = response.documents.map {
+            val location = Location(it.y.toDouble(), it.x.toDouble())
             LocationSearchItem(
                 name = it.place_name,
                 address = it.road_address_name,
-                location = Location(it.y.toDouble(), it.x.toDouble()),
+                location = location,
+                distance = it.distance.toDouble(),
                 category = it.category
             )
         }

@@ -1,6 +1,7 @@
 package api.epilogue.wehere.search.application
 
 import api.epilogue.wehere.client.PageResponse
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.search.domain.LocationSearchCountry
 import api.epilogue.wehere.search.domain.LocationSearchInput
 import api.epilogue.wehere.search.domain.LocationSearcher
@@ -13,12 +14,13 @@ class SearchService(
     fun searchLocation(
         keyword: String,
         page: Int?,
+        current: Location,
         country: LocationSearchCountry?
     ) =
         locationSearcher
             .search(
                 LocationSearchInput(
-                    keyword, page ?: 1, country ?: LocationSearchCountry.KOREA
+                    keyword, page ?: 1, current, country ?: LocationSearchCountry.KOREA
                 )
             )
             .let {

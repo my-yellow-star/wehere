@@ -1,5 +1,6 @@
 package api.epilogue.wehere.search.controller
 
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.search.application.SearchService
 import api.epilogue.wehere.search.domain.LocationSearchCountry
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,7 +17,8 @@ class SearchController(
     fun searchLocation(
         keyword: String,
         page: Int?,
+        current: Location,
         @RequestParam(required = false) country: LocationSearchCountry?
     ) =
-        searchService.searchLocation(keyword, page, country)
+        searchService.searchLocation(keyword, page, current, country)
 }

@@ -9,6 +9,7 @@ interface LocationSearcher {
 data class LocationSearchInput(
     val keyword: String,
     val page: Int,
+    val current: Location,
     val country: LocationSearchCountry
 )
 
@@ -22,6 +23,7 @@ data class LocationSearchItem(
     val name: String,
     val address: String,
     val location: Location,
+    val distance: Double,
     val category: String? = null
 )
 

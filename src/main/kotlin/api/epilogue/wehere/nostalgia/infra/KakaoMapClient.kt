@@ -21,7 +21,9 @@ interface KakaoMapClient {
     fun searchKeyword(
         @RequestParam(value = "query") keyword: String,
         @RequestParam(value = "page") page: Int,
-        @RequestHeader(value = "Authorization") apiKey: String
+        @RequestParam(value = "x") longitude: Double,
+        @RequestParam(value = "y") latitude: Double,
+        @RequestHeader(value = "Authorization") apiKey: String,
     ): KakaoSearchKeywordResponse
 }
 
@@ -58,6 +60,7 @@ data class KakaoSearchKeywordDocument(
     val category_name: String,
     val place_name: String,
     val road_address_name: String,
+    val distance: String,
     val x: String,
     val y: String
 ) {
