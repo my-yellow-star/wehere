@@ -31,7 +31,7 @@ class NostalgiaController(
     fun get(
         @AuthenticationPrincipal principal: MemberPrincipal,
         @RequestParam(required = false) memberId: UUID?,
-        @RequestParam(required = false) targetLocationParams: TargetLocationParams?,
+        targetLocationParams: TargetLocationParams,
         pageRequest: PageRequest,
         condition: NostalgiaCondition,
         current: Location,
@@ -48,7 +48,7 @@ class NostalgiaController(
                 principal.id,
                 memberId,
                 current,
-                targetLocationParams?.parse() ?: current,
+                targetLocationParams.parse() ?: current,
                 maxDistance,
                 pageRequest.toPageable()
             )

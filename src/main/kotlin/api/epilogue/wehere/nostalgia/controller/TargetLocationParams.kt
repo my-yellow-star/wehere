@@ -1,10 +1,16 @@
 package api.epilogue.wehere.nostalgia.controller
 
 import api.epilogue.wehere.nostalgia.domain.Location
+import org.springframework.web.bind.annotation.RequestParam
 
 data class TargetLocationParams(
-    val targetLatitude: Double,
-    val targetLongitude: Double
+    @RequestParam(required = false)
+    val targetLatitude: Double?,
+    @RequestParam(required = false)
+    val targetLongitude: Double?
 ) {
-    fun parse() = Location(targetLatitude, targetLongitude)
+    fun parse() =
+        if (targetLatitude != null && targetLongitude != null)
+            Location(targetLatitude, targetLongitude)
+        else null
 }
