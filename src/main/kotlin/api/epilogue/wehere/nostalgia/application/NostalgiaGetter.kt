@@ -22,16 +22,17 @@ class NostalgiaGetter(
         principalId: UUID,
         memberId: UUID?,
         current: Location,
+        target: Location,
         maxDistance: Double?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
         var spec = NostalgiaSpec.filterVisible(principalId)
-            .and(NostalgiaSpec.orderByDistance(current.toPoint()))
+            .and(NostalgiaSpec.orderByDistance(target.toPoint()))
         if (memberId != null) {
             spec = spec.and(NostalgiaSpec.memberIdEq(memberId))
         }
         if (maxDistance != null)
-            spec = spec.and(NostalgiaSpec.distanceLessThan(current.toPoint(), maxDistance))
+            spec = spec.and(NostalgiaSpec.distanceLessThan(target.toPoint(), maxDistance))
         val result = repository.findAll(spec, pageable)
         return PageResponse.of(result) {
             NostalgiaListOutput.of(it, current)
@@ -42,7 +43,7 @@ class NostalgiaGetter(
     fun getListRecent(
         principalId: UUID,
         memberId: UUID?,
-        current: Location?,
+        current: Location,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
         var spec = NostalgiaSpec.filterVisible(principalId)
@@ -59,7 +60,7 @@ class NostalgiaGetter(
     fun getDetail(
         memberId: UUID,
         nostalgiaId: UUID,
-        current: Location?,
+        current: Location,
     ): NostalgiaOutput {
         val nostalgia = repository.findByIdOrNull(nostalgiaId)
             ?: throw ApiError(ErrorCause.ENTITY_NOT_FOUND)

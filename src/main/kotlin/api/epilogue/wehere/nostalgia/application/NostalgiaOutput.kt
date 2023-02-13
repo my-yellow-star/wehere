@@ -22,19 +22,19 @@ data class NostalgiaOutput(
     val address: String?
 ) {
     companion object {
-        fun of(nostalgia: Nostalgia, current: Location?) = NostalgiaOutput(
+        fun of(nostalgia: Nostalgia, current: Location) = NostalgiaOutput(
             id = nostalgia.id,
             member = MemberListOutput.of(nostalgia.member),
             title = nostalgia.title,
             description = nostalgia.description,
             location = Location.of(nostalgia.location),
-            distance = current?.let { Location.of(nostalgia.location).distance(it).toInt() },
+            distance = current.let { Location.of(nostalgia.location).distance(it).toInt() },
             thumbnail = nostalgia.thumbnailUrl,
             images = nostalgia.media.map { it.url },
             createdAt = nostalgia.createdAt,
             visibility = nostalgia.visibility,
             markerColor = nostalgia.markerColor,
-            address = nostalgia.address
+            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address
         )
     }
 }

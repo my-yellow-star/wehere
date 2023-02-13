@@ -15,4 +15,6 @@ data class Location(
 
     fun distance(compare: Location) =
         LocationUtils.calculateDistance(latitude, longitude, compare.latitude, compare.longitude)
+
+    val isInKorea = LocationUtils.isInKorea(latitude, longitude)
 }

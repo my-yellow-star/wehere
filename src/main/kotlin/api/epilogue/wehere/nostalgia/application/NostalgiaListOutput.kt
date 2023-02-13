@@ -18,20 +18,22 @@ data class NostalgiaListOutput(
     val thumbnail: String?,
     val createdAt: Instant,
     val visibility: NostalgiaVisibility,
-    val markerColor: MarkerColor
+    val markerColor: MarkerColor,
+    val address: String?
 ) {
     companion object {
-        fun of(nostalgia: Nostalgia, current: Location?) = NostalgiaListOutput(
+        fun of(nostalgia: Nostalgia, current: Location) = NostalgiaListOutput(
             id = nostalgia.id,
             member = MemberListOutput.of(nostalgia.member),
             title = nostalgia.title,
             description = nostalgia.description,
             location = Location.of(nostalgia.location),
-            distance = current?.let { Location.of(nostalgia.location).distance(it).toInt() },
+            distance = current.let { Location.of(nostalgia.location).distance(it).toInt() },
             thumbnail = nostalgia.thumbnailUrl,
             createdAt = nostalgia.createdAt,
             visibility = nostalgia.visibility,
-            markerColor = nostalgia.markerColor
+            markerColor = nostalgia.markerColor,
+            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address
         )
     }
 }
