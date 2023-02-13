@@ -30,11 +30,12 @@ class Nostalgia(
     longitude: Double,
     var thumbnailUrl: String? = null,
     @Enumerated(EnumType.STRING)
-    var markerColor: MarkerColor = MarkerColor.BLUE_GREEN,
-    val address: String? = null
+    var markerColor: MarkerColor = MarkerColor.BLUE_GREEN
 ) : BasePersistable() {
     @Column(columnDefinition = "geometry(point)")
     val location: Point = LocationUtils.toPoint(latitude, longitude)
+    var address: String? = ""
+    var addressKo: String? = ""
 
     @OneToMany(mappedBy = "nostalgia", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderBy("sortIndex")
@@ -58,6 +59,11 @@ class Nostalgia(
     fun updateMedia(urls: List<String>) {
         media.clear()
         addMedia(urls)
+    }
+
+    fun updateAddress(result: AddressResult) {
+        address = result.en
+        addressKo = result.ko
     }
 
     fun delete() {

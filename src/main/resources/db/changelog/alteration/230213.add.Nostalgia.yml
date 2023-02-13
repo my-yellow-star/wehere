@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 230213.add.Nostalgia
+      author: chan
+      changes:
+        - addColumn:
+            tableName: Nostalgia
+            columns:
+              - column:
+                  name: addressKo
+                  type: varchar(255)

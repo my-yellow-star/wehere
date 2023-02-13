@@ -69,6 +69,8 @@ cloud:
 apple:
   issuer: "${apple.issuer}"
   client-id: "${client-id}"
+kakao:
+  map-api-key: "${kakao.map-api-key}"
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587

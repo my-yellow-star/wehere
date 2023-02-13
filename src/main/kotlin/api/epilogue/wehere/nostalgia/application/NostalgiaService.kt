@@ -3,6 +3,8 @@ package api.epilogue.wehere.nostalgia.application
 import api.epilogue.wehere.error.ApiError
 import api.epilogue.wehere.error.ErrorCause
 import api.epilogue.wehere.member.domain.MemberRepository
+import api.epilogue.wehere.nostalgia.domain.Geocoder
+import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import api.epilogue.wehere.nostalgia.domain.NostalgiaStatistic
@@ -16,12 +18,14 @@ import org.springframework.transaction.annotation.Transactional
 class NostalgiaService(
     private val memberRepository: MemberRepository,
     private val nostalgiaRepository: NostalgiaRepository,
-    private val statisticRepository: NostalgiaStatisticRepository
+    private val statisticRepository: NostalgiaStatisticRepository,
+    private val geocoder: Geocoder
 ) {
     @Transactional
     fun create(memberId: UUID, input: CreateNostalgiaInput): CreateNostalgiaOutput {
         val member = memberRepository.getReferenceById(memberId)
         val nostalgia = input.toNostalgia(member)
+        nostalgia.updateAddress(geocoder.locationToAddress(Location.of(nostalgia.location)))
         nostalgiaRepository.save(nostalgia)
         val statistic = statisticRepository.findByMemberId(memberId)
             ?: NostalgiaStatistic(member)

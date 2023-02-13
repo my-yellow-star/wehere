@@ -19,5 +19,6 @@ class GoogleApiConfig(
 @ConstructorBinding
 @ConfigurationProperties(prefix = "google-api")
 class GoogleApiProperties(
-    val clientIds: List<String>
+    val clientIds: List<String>,
+    val mapApiKey: String
 )

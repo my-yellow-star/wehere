@@ -38,6 +38,9 @@ object LocationUtils {
             )
         ) * 60 * 1151.5 * 1.609344
 
+    fun isInKorea(latitude: Double, longitude: Double) =
+        latitude in 33.0..43.0 && longitude in 124.0..132.0
+
     private fun deg2rad(deg: Double) = deg * Math.PI / 180.0
 
     private fun rad2deg(rad: Double) = rad * 180.0 / Math.PI
