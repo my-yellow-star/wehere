@@ -23,7 +23,7 @@ data class LocationSearchItem(
     val name: String,
     val address: String,
     val location: Location,
-    val distance: Double,
+    val distance: Int,
     val category: String? = null
 )
 

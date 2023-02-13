@@ -36,7 +36,7 @@ class LocationSearcherImpl(
                 name = it.place_name,
                 address = it.road_address_name,
                 location = location,
-                distance = it.distance.toDouble(),
+                distance = it.distance.toInt(),
                 category = it.category
             )
         }
