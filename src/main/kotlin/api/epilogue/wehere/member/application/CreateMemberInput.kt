@@ -9,13 +9,15 @@ data class CreateMemberInput(
     val email: String,
     val platformUid: String,
     val platformType: MemberPlatformType,
-    val profileImageUrl: String?
+    val profileImageUrl: String?,
+    val password: String? = null
 ) {
     fun toMember() = Member(
         nickname = nickname ?: NicknameFactory.random(),
         email = email,
         platformUid = platformUid,
         platformType = platformType,
-        profileImageUrl = profileImageUrl
+        profileImageUrl = profileImageUrl,
+        password = password
     )
 }

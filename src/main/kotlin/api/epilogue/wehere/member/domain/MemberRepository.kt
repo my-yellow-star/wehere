@@ -5,4 +5,5 @@ import api.epilogue.wehere.member.domain.Member.MemberPlatformType
 
 interface MemberRepository : BaseRepository<Member> {
     fun findByPlatformUidAndPlatformType(platformUid: String, platformType: MemberPlatformType): Member?
+    fun findByEmail(email: String): Member?
 }

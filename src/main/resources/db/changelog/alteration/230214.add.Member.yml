@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 230214.add.Member
+      author: chan
+      changes:
+        - addColumn:
+            tableName: Member
+            columns:
+              - column:
+                  name: password
+                  type: varchar(500)

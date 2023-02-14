@@ -16,7 +16,8 @@ class Member(
     val platformType: MemberPlatformType,
     var profileImageUrl: String? = null,
     var backgroundImageUrl: String? = null,
-    var description: String? = null
+    var description: String? = null,
+    var password: String? = null
 ) : BasePersistable() {
     @Enumerated(EnumType.STRING)
     var state: MemberState = MemberState.ACTIVE
@@ -37,7 +38,8 @@ class Member(
     enum class MemberPlatformType {
         GOOGLE,
         APPLE,
-        KAKAO
+        KAKAO,
+        BASIC
     }
 
     enum class MemberGrade {

@@ -1,19 +1,22 @@
 package api.epilogue.wehere.auth.controller
 
-import api.epilogue.wehere.auth.application.MemberSessionService
-import api.epilogue.wehere.auth.domain.MemberPrincipal
-import org.springframework.security.core.annotation.AuthenticationPrincipal
+import api.epilogue.wehere.auth.application.PasswordAuthService
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 class AuthController(
-    private val sessionService: MemberSessionService
+    private val passwordAuthService: PasswordAuthService
 ) {
-    @PostMapping("/logout")
-    fun logout(@AuthenticationPrincipal principal: MemberPrincipal) {
-        sessionService.expireAll(principal.id)
+    @PostMapping("/register")
+    fun register(@RequestBody input: EmailPasswordInput) {
+        passwordAuthService.register(input.email, input.password)
     }
+
+    @PostMapping("/login")
+    fun login(@RequestBody input: EmailPasswordInput) =
+        passwordAuthService.login(input.email, input.password)
 }
