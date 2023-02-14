@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class NostalgiaGetter(
-    private val repository: NostalgiaRepository
+    private val repository: NostalgiaRepository,
+    private val viewNostalgiaUseCase: ViewNostalgiaUseCase
 ) {
     @Transactional(readOnly = true)
     fun getListAround(
@@ -66,7 +67,8 @@ class NostalgiaGetter(
             ?: throw ApiError(ErrorCause.ENTITY_NOT_FOUND)
         if (!isVisible(memberId, nostalgia))
             throw ApiError(ErrorCause.NOT_OWNER)
-        return NostalgiaOutput.of(nostalgia, current)
+        viewNostalgiaUseCase.execute(memberId, nostalgiaId)
+        return NostalgiaOutput.of(nostalgia, memberId, current)
     }
 
     private fun isVisible(memberId: UUID, nostalgia: Nostalgia) =
