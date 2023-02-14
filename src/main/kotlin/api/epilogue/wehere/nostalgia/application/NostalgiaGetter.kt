@@ -3,8 +3,8 @@ package api.epilogue.wehere.nostalgia.application
 import api.epilogue.wehere.client.PageResponse
 import api.epilogue.wehere.error.ApiError
 import api.epilogue.wehere.error.ErrorCause
+import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.Location
-import api.epilogue.wehere.nostalgia.domain.Nostalgia
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
 import java.util.UUID
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NostalgiaGetter(
     private val repository: NostalgiaRepository,
+    private val memberRepository: MemberRepository,
     private val viewNostalgiaUseCase: ViewNostalgiaUseCase
 ) {
     @Transactional(readOnly = true)
@@ -63,14 +64,12 @@ class NostalgiaGetter(
         nostalgiaId: UUID,
         current: Location,
     ): NostalgiaOutput {
+        val member = memberRepository.getReferenceById(memberId)
         val nostalgia = repository.findByIdOrNull(nostalgiaId)
             ?: throw ApiError(ErrorCause.ENTITY_NOT_FOUND)
-        if (!isVisible(memberId, nostalgia))
+        if (!nostalgia.isVisible(member))
             throw ApiError(ErrorCause.NOT_OWNER)
         viewNostalgiaUseCase.execute(memberId, nostalgiaId)
         return NostalgiaOutput.of(nostalgia, memberId, current)
     }
-
-    private fun isVisible(memberId: UUID, nostalgia: Nostalgia) =
-        nostalgia.member.id == memberId || nostalgia.visibility == Nostalgia.NostalgiaVisibility.ALL
 }

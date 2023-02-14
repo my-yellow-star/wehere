@@ -41,6 +41,9 @@ class Nostalgia(
     @OrderBy("sortIndex")
     val media: MutableList<NostalgiaMedium> = mutableListOf()
 
+    @OneToMany(mappedBy = "nostalgia")
+    val bookmarks: List<NostalgiaBookmark> = listOf()
+
     enum class NostalgiaVisibility {
         OWNER,
         FRIEND,
@@ -69,4 +72,8 @@ class Nostalgia(
     fun delete() {
         visibility = NostalgiaVisibility.NONE
     }
+
+    fun isVisible(member: Member) =
+        visibility == NostalgiaVisibility.ALL ||
+                this.member.id == member.id
 }

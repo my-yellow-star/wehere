@@ -2,6 +2,7 @@ package api.epilogue.wehere.nostalgia.controller
 
 import api.epilogue.wehere.auth.domain.MemberPrincipal
 import api.epilogue.wehere.client.PageRequest
+import api.epilogue.wehere.nostalgia.application.BookmarkService
 import api.epilogue.wehere.nostalgia.application.CreateNostalgiaInput
 import api.epilogue.wehere.nostalgia.application.NostalgiaGetter
 import api.epilogue.wehere.nostalgia.application.NostalgiaService
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/nostalgia")
 class NostalgiaController(
     private val service: NostalgiaService,
-    private val getter: NostalgiaGetter
+    private val getter: NostalgiaGetter,
+    private val bookmarkService: BookmarkService
 ) {
     @GetMapping
     fun get(
@@ -82,5 +84,21 @@ class NostalgiaController(
         @PathVariable nostalgiaId: UUID
     ) {
         service.delete(principal.id, nostalgiaId)
+    }
+
+    @PostMapping("/{nostalgiaId}/bookmarks")
+    fun bookmark(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @PathVariable nostalgiaId: UUID
+    ) {
+        bookmarkService.create(principal.id, nostalgiaId)
+    }
+
+    @DeleteMapping("/{nostalgiaId}/bookmarks")
+    fun cancelBookmark(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @PathVariable nostalgiaId: UUID
+    ) {
+        bookmarkService.delete(principal.id, nostalgiaId)
     }
 }

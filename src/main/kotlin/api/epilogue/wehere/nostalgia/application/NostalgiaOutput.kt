@@ -19,10 +19,12 @@ data class NostalgiaOutput(
     val createdAt: Instant,
     val visibility: Nostalgia.NostalgiaVisibility,
     val markerColor: MarkerColor,
-    val address: String?
+    val address: String?,
+    val bookmarkCount: Int,
+    val isBookmarked: Boolean
 ) {
     companion object {
-        fun of(nostalgia: Nostalgia, current: Location) = NostalgiaOutput(
+        fun of(nostalgia: Nostalgia, memberId: UUID, current: Location) = NostalgiaOutput(
             id = nostalgia.id,
             member = MemberListOutput.of(nostalgia.member),
             title = nostalgia.title,
@@ -34,7 +36,9 @@ data class NostalgiaOutput(
             createdAt = nostalgia.createdAt,
             visibility = nostalgia.visibility,
             markerColor = nostalgia.markerColor,
-            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address
+            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address,
+            bookmarkCount = nostalgia.bookmarks.size,
+            isBookmarked = nostalgia.bookmarks.any { it.member.id == memberId }
         )
     }
 }
