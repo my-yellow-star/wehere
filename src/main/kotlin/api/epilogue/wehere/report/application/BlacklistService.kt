@@ -2,6 +2,7 @@ package api.epilogue.wehere.report.application
 
 import api.epilogue.wehere.error.ApiError
 import api.epilogue.wehere.error.ErrorCause
+import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.report.domain.MemberBlacklist
 import api.epilogue.wehere.report.domain.MemberBlacklistRepository
@@ -16,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 class BlacklistService(
     private val memberBlacklistRepository: MemberBlacklistRepository,
     private val nostalgiaBlacklistRepository: NostalgiaBlacklistRepository,
-    private val nostalgiaRepository: NostalgiaRepository
+    private val nostalgiaRepository: NostalgiaRepository,
+    private val memberRepository: MemberRepository
 ) {
     @Transactional
     fun createMember(memberId: UUID, targetId: UUID) {
@@ -24,8 +26,9 @@ class BlacklistService(
             throw ApiError(ErrorCause.INVALID_REQUEST)
         if (memberBlacklistRepository.findByMemberIdAndTargetId(memberId, targetId) != null)
             throw ApiError(ErrorCause.INVALID_REQUEST)
+        val member = memberRepository.getReferenceById(memberId)
         memberBlacklistRepository.save(
-            MemberBlacklist(memberId, targetId)
+            MemberBlacklist(member, targetId)
         )
     }
 
@@ -48,14 +51,14 @@ class BlacklistService(
         if (nostalgia.member.id == memberId)
             throw ApiError(ErrorCause.INVALID_REQUEST)
         nostalgiaBlacklistRepository.save(
-            NostalgiaBlacklist(memberId, targetId)
+            NostalgiaBlacklist(memberId, nostalgia)
         )
     }
 
     @Transactional
     fun deleteNostalgia(memberId: UUID, targetId: UUID) {
         val blacklist = nostalgiaBlacklistRepository
-            .findByMemberIdAndTargetId(memberId, targetId)
+            .findByMemberIdAndNostalgiaId(memberId, targetId)
             ?: throw ApiError(ErrorCause.INVALID_REQUEST)
         nostalgiaBlacklistRepository.delete(blacklist)
     }

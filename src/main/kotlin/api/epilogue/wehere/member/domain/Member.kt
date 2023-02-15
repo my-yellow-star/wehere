@@ -1,9 +1,11 @@
 package api.epilogue.wehere.member.domain
 
 import api.epilogue.wehere.kernel.BasePersistable
+import api.epilogue.wehere.report.domain.MemberBlacklist
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import javax.persistence.OneToMany
 import org.hibernate.annotations.Where
 
 @Entity
@@ -24,6 +26,9 @@ class Member(
 
     @Enumerated(EnumType.STRING)
     var grade: MemberGrade = MemberGrade.FREE_TIER
+
+    @OneToMany(mappedBy = "member")
+    val blacklists: List<MemberBlacklist> = listOf()
 
     fun resign() {
         nickname = "탈퇴한 사용자"

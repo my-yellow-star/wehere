@@ -4,5 +4,5 @@ import api.epilogue.wehere.kernel.BaseRepository
 import java.util.UUID
 
 interface NostalgiaBlacklistRepository : BaseRepository<NostalgiaBlacklist> {
-    fun findByMemberIdAndTargetId(memberId: UUID, targetId: UUID): NostalgiaBlacklist?
+    fun findByMemberIdAndNostalgiaId(memberId: UUID, nostalgiaId: UUID): NostalgiaBlacklist?
 }

@@ -2,8 +2,10 @@ package api.epilogue.wehere.nostalgia.domain
 
 import api.epilogue.wehere.member.domain.Member
 import api.epilogue.wehere.nostalgia.domain.Nostalgia.NostalgiaVisibility
+import api.epilogue.wehere.report.domain.NostalgiaBlacklist
 import java.util.UUID
 import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.JoinType
 import javax.persistence.criteria.Root
 import org.locationtech.jts.geom.Point
 import org.springframework.data.jpa.domain.Specification
@@ -23,16 +25,34 @@ object NostalgiaSpec {
             memberIdEqPredicate(root, builder, memberId)
         }
 
+    fun memberIdNotIn(memberIds: List<UUID>): Specification<Nostalgia> =
+        Specification { root, _, builder ->
+            if (memberIds.isNotEmpty()) {
+                root.get<Member>(Nostalgia::member.name).get<UUID>(Member::id.name).`in`(memberIds).not()
+            } else {
+                builder.noCondition()
+            }
+        }
+
     fun visibilityEq(visibility: NostalgiaVisibility): Specification<Nostalgia> =
         Specification { root, _, builder ->
             visibilityEqPredicate(root, builder, visibility)
         }
 
     fun filterVisible(memberId: UUID): Specification<Nostalgia> =
-        Specification { root, _, builder ->
-            builder.or(
-                memberIdEqPredicate(root, builder, memberId),
-                visibilityEqPredicate(root, builder, NostalgiaVisibility.ALL)
+        Specification { root, query, builder ->
+            val blacklist = root
+                .join<Nostalgia, NostalgiaBlacklist>(Nostalgia::blacklists.name, JoinType.LEFT)
+            query.groupBy(root.get<UUID>("id"))
+            builder.and(
+                builder.or(
+                    memberIdEqPredicate(root, builder, memberId),
+                    visibilityEqPredicate(root, builder, NostalgiaVisibility.ALL)
+                ),
+                builder.or(
+                    builder.isNull(blacklist.get<UUID>(NostalgiaBlacklist::memberId.name)),
+                    builder.notEqual(blacklist.get<UUID>(NostalgiaBlacklist::memberId.name), memberId)
+                )
             )
         }
 

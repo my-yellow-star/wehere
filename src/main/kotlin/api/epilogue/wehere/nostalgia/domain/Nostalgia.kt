@@ -3,6 +3,7 @@ package api.epilogue.wehere.nostalgia.domain
 import api.epilogue.wehere.kernel.BasePersistable
 import api.epilogue.wehere.kernel.LocationUtils
 import api.epilogue.wehere.member.domain.Member
+import api.epilogue.wehere.report.domain.NostalgiaBlacklist
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -43,6 +44,9 @@ class Nostalgia(
 
     @OneToMany(mappedBy = "nostalgia")
     val bookmarks: List<NostalgiaBookmark> = listOf()
+
+    @OneToMany(mappedBy = "nostalgia")
+    val blacklists: List<NostalgiaBlacklist> = listOf()
 
     enum class NostalgiaVisibility {
         OWNER,

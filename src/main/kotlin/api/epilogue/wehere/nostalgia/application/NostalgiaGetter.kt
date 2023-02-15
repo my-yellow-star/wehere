@@ -7,6 +7,7 @@ import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.Location
 import api.epilogue.wehere.nostalgia.domain.NostalgiaRepository
 import api.epilogue.wehere.nostalgia.domain.NostalgiaSpec
+import api.epilogue.wehere.report.domain.MemberBlacklist
 import java.util.UUID
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
@@ -28,8 +29,10 @@ class NostalgiaGetter(
         maxDistance: Double?,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
+        val member = memberRepository.getReferenceById(principalId)
         var spec = NostalgiaSpec.filterVisible(principalId)
             .and(NostalgiaSpec.orderByDistance(target.toPoint()))
+            .and(NostalgiaSpec.memberIdNotIn(member.blacklists.map(MemberBlacklist::targetId)))
         if (memberId != null) {
             spec = spec.and(NostalgiaSpec.memberIdEq(memberId))
         }
@@ -48,7 +51,9 @@ class NostalgiaGetter(
         current: Location,
         pageable: Pageable
     ): PageResponse<NostalgiaListOutput> {
+        val member = memberRepository.getReferenceById(principalId)
         var spec = NostalgiaSpec.filterVisible(principalId)
+            .and(NostalgiaSpec.memberIdNotIn(member.blacklists.map(MemberBlacklist::targetId)))
         if (memberId != null) {
             spec = spec.and(NostalgiaSpec.memberIdEq(memberId))
         }
