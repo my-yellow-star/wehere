@@ -25,8 +25,11 @@ class MemberController(
         getter.get(principal.id)
 
     @GetMapping("/{memberId}")
-    fun getOther(@PathVariable memberId: UUID) =
-        getter.get(memberId)
+    fun getOther(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @PathVariable memberId: UUID
+    ) =
+        getter.getOther(principal.id, memberId)
 
     @PatchMapping("/me")
     fun update(

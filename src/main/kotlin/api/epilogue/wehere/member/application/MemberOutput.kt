@@ -13,7 +13,8 @@ data class MemberOutput(
     val email: String,
     val platformType: Member.MemberPlatformType,
     val grade: Member.MemberGrade,
-    val createdAt: Instant
+    val createdAt: Instant,
+    val blocked: Boolean = false
 ) {
     companion object {
         fun of(member: Member) = MemberOutput(
@@ -26,6 +27,19 @@ data class MemberOutput(
             platformType = member.platformType,
             grade = member.grade,
             createdAt = member.createdAt
+        )
+
+        fun ofOther(principal: Member, member: Member) = MemberOutput(
+            id = member.id,
+            nickname = member.nickname,
+            profileImageUrl = member.profileImageUrl,
+            backgroundImageUrl = member.backgroundImageUrl,
+            description = member.description,
+            email = member.email,
+            platformType = member.platformType,
+            grade = member.grade,
+            createdAt = member.createdAt,
+            blocked = principal.blacklists.any { it.targetId == member.id }
         )
     }
 }
