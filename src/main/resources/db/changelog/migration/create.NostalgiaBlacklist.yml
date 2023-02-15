@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create.NostalgiaBlacklist
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: NostalgiaBlacklist
+      changes:
+        - createTable:
+            tableName: NostalgiaBlacklist
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: memberId
+                  type: binary(16)
+              - column:
+                  name: targetId
+                  type: binary(16)
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updatedAt
+                  type: datetime

@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: create.NostalgiaReport
+      author: chan
+      preConditions:
+        - onFail: CONTINUE
+        - not:
+            - tableExists:
+                tableName: NostalgiaReport
+      changes:
+        - createTable:
+            tableName: NostalgiaReport
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: reporterId
+                  type: binary(16)
+              - column:
+                  name: nostalgiaId
+                  type: binary(16)
+              - column:
+                  name: reason
+                  type: text
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: createdAt
+                  type: datetime
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updatedAt
+                  type: datetime
