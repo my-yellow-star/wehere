@@ -19,7 +19,9 @@ data class NostalgiaListOutput(
     val createdAt: Instant,
     val visibility: NostalgiaVisibility,
     val markerColor: MarkerColor,
-    val address: String?
+    val address: String?,
+    val memorizedAt: Instant,
+    val isRealLocation: Boolean
 ) {
     companion object {
         fun of(nostalgia: Nostalgia, current: Location) = NostalgiaListOutput(
@@ -33,7 +35,9 @@ data class NostalgiaListOutput(
             createdAt = nostalgia.createdAt,
             visibility = nostalgia.visibility,
             markerColor = nostalgia.markerColor,
-            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address
+            address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address,
+            memorizedAt = nostalgia.memorizedAt,
+            isRealLocation = nostalgia.isRealLocation
         )
     }
 }

@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 230220.add.Nostalgia
+      author: chan
+      changes:
+        - addColumn:
+            tableName: Nostalgia
+            columns:
+              - column:
+                  name: isRealLocation
+                  type: tinyint(1)
+                  defaultValue: 1
+              - column:
+                  name: memorizedAt
+                  type: datetime

@@ -4,6 +4,7 @@ import api.epilogue.wehere.kernel.BasePersistable
 import api.epilogue.wehere.kernel.LocationUtils
 import api.epilogue.wehere.member.domain.Member
 import api.epilogue.wehere.report.domain.NostalgiaBlacklist
+import java.time.Instant
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -31,10 +32,13 @@ class Nostalgia(
     longitude: Double,
     var thumbnailUrl: String? = null,
     @Enumerated(EnumType.STRING)
-    var markerColor: MarkerColor = MarkerColor.BLUE_GREEN
+    var markerColor: MarkerColor = MarkerColor.BLUE_GREEN,
+    var isRealLocation: Boolean = true,
+    var memorizedAt: Instant = Instant.now()
 ) : BasePersistable() {
     @Column(columnDefinition = "geometry(point)")
-    val location: Point = LocationUtils.toPoint(latitude, longitude)
+    var location: Point = LocationUtils.toPoint(latitude, longitude)
+        protected set
     var address: String? = ""
     var addressKo: String? = ""
 
@@ -71,6 +75,10 @@ class Nostalgia(
     fun updateAddress(result: AddressResult) {
         address = result.en
         addressKo = result.ko
+    }
+
+    fun updateLocation(location: Location) {
+        this.location = LocationUtils.toPoint(location.latitude, location.longitude)
     }
 
     fun delete() {

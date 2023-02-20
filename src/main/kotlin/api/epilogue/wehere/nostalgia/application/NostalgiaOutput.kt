@@ -21,7 +21,9 @@ data class NostalgiaOutput(
     val markerColor: MarkerColor,
     val address: String?,
     val bookmarkCount: Int,
-    val isBookmarked: Boolean
+    val isBookmarked: Boolean,
+    val memorizedAt: Instant,
+    val isRealLocation: Boolean
 ) {
     companion object {
         fun of(nostalgia: Nostalgia, memberId: UUID, current: Location) = NostalgiaOutput(
@@ -38,7 +40,9 @@ data class NostalgiaOutput(
             markerColor = nostalgia.markerColor,
             address = if (current.isInKorea) nostalgia.addressKo else nostalgia.address,
             bookmarkCount = nostalgia.bookmarks.size,
-            isBookmarked = nostalgia.bookmarks.any { it.member.id == memberId }
+            isBookmarked = nostalgia.bookmarks.any { it.member.id == memberId },
+            memorizedAt = nostalgia.memorizedAt,
+            isRealLocation = nostalgia.isRealLocation
         )
     }
 }

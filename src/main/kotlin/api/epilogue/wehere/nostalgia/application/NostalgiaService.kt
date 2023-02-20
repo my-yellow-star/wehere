@@ -43,6 +43,12 @@ class NostalgiaService(
             visibility = input.visibility ?: visibility
             thumbnailUrl = input.images?.firstOrNull() ?: thumbnailUrl
             markerColor = input.markerColor ?: markerColor
+            isRealLocation = input.isRealLocation ?: isRealLocation
+            memorizedAt = input.memorizedAt ?: memorizedAt
+            if (input.location != null) {
+                nostalgia.updateLocation(input.location)
+                nostalgia.updateAddress(geocoder.locationToAddress(input.location))
+            }
             input.images?.let { updateMedia(it) }
         }
     }

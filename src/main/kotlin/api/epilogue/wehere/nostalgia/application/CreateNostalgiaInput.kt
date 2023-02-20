@@ -3,6 +3,7 @@ package api.epilogue.wehere.nostalgia.application
 import api.epilogue.wehere.member.domain.Member
 import api.epilogue.wehere.nostalgia.domain.MarkerColor
 import api.epilogue.wehere.nostalgia.domain.Nostalgia
+import java.time.Instant
 
 data class CreateNostalgiaInput(
     val title: String,
@@ -11,7 +12,9 @@ data class CreateNostalgiaInput(
     val latitude: Double,
     val longitude: Double,
     val images: List<String>,
-    val markerColor: MarkerColor
+    val markerColor: MarkerColor,
+    val isRealLocation: Boolean?,
+    val memorizedAt: Instant?
 ) {
     fun toNostalgia(member: Member) =
         Nostalgia(
@@ -22,7 +25,9 @@ data class CreateNostalgiaInput(
             latitude,
             longitude,
             images.firstOrNull(),
-            markerColor
+            markerColor,
+            isRealLocation ?: true,
+            memorizedAt ?: Instant.now()
         ).apply {
             addMedia(images)
         }
