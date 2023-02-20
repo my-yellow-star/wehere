@@ -56,6 +56,13 @@ object NostalgiaSpec {
             )
         }
 
+    fun bookmarkedBy(memberId: UUID): Specification<Nostalgia> =
+        Specification { root, query, builder ->
+            val bookmark = root
+                .join<Nostalgia, NostalgiaBookmark>(Nostalgia::bookmarks.name, JoinType.INNER)
+            builder.equal(bookmark.get<Member>(NostalgiaBookmark::member.name).get<UUID>("id"), memberId)
+        }
+
     fun distanceLessThan(point: Point, distance: Double): Specification<Nostalgia> {
         return Specification { root, _, builder ->
             builder.lessThan(

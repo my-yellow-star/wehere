@@ -1,9 +1,12 @@
 package api.epilogue.wehere.member.controller
 
 import api.epilogue.wehere.auth.domain.MemberPrincipal
+import api.epilogue.wehere.client.PageRequest
+import api.epilogue.wehere.member.application.GetBookmarksUseCase
 import api.epilogue.wehere.member.application.MemberGetter
 import api.epilogue.wehere.member.application.MemberService
 import api.epilogue.wehere.member.application.UpdateMemberInput
+import api.epilogue.wehere.nostalgia.domain.Location
 import java.util.UUID
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -18,11 +21,20 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/members")
 class MemberController(
     private val getter: MemberGetter,
-    private val service: MemberService
+    private val service: MemberService,
+    private val getBookmarksUseCase: GetBookmarksUseCase
 ) {
     @GetMapping("/me")
     fun getMe(@AuthenticationPrincipal principal: MemberPrincipal) =
         getter.get(principal.id)
+
+    @GetMapping("/me/bookmarks")
+    fun getBookmarks(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        pageRequest: PageRequest,
+        current: Location
+    ) =
+        getBookmarksUseCase.execute(principal.id, principal.id, current, pageRequest.toPageable())
 
     @GetMapping("/{memberId}")
     fun getOther(
@@ -30,6 +42,15 @@ class MemberController(
         @PathVariable memberId: UUID
     ) =
         getter.getOther(principal.id, memberId)
+
+    @GetMapping("/{memberId}/bookmarks")
+    fun getBookmarksOther(
+        @AuthenticationPrincipal principal: MemberPrincipal,
+        @PathVariable memberId: UUID,
+        pageRequest: PageRequest,
+        current: Location
+    ) =
+        getBookmarksUseCase.execute(principal.id, memberId, current, pageRequest.toPageable())
 
     @PatchMapping("/me")
     fun update(
