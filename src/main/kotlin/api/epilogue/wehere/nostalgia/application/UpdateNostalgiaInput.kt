@@ -13,5 +13,6 @@ data class UpdateNostalgiaInput(
     val markerColor: MarkerColor?,
     val location: Location?,
     val isRealLocation: Boolean?,
-    val memorizedAt: Instant?
+    val memorizedAt: Instant?,
+    val address: String?
 )

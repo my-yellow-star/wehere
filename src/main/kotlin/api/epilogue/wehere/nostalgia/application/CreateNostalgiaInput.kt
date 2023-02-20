@@ -14,7 +14,8 @@ data class CreateNostalgiaInput(
     val images: List<String>,
     val markerColor: MarkerColor,
     val isRealLocation: Boolean?,
-    val memorizedAt: Instant?
+    val memorizedAt: Instant?,
+    val address: String?
 ) {
     fun toNostalgia(member: Member) =
         Nostalgia(

@@ -2,6 +2,7 @@ package api.epilogue.wehere.nostalgia.application
 
 import api.epilogue.wehere.error.ApiError
 import api.epilogue.wehere.error.ErrorCause
+import api.epilogue.wehere.kernel.RegexUtils
 import api.epilogue.wehere.member.domain.MemberRepository
 import api.epilogue.wehere.nostalgia.domain.Geocoder
 import api.epilogue.wehere.nostalgia.domain.Location
@@ -25,7 +26,18 @@ class NostalgiaService(
     fun create(memberId: UUID, input: CreateNostalgiaInput): CreateNostalgiaOutput {
         val member = memberRepository.getReferenceById(memberId)
         val nostalgia = input.toNostalgia(member)
-        nostalgia.updateAddress(geocoder.locationToAddress(Location.of(nostalgia.location)))
+        val location = Location(
+            input.latitude,
+            input.longitude
+        )
+        val addressEn = input.address?.takeUnless { RegexUtils.containsKorean(it) }
+        val addressKo = input.address?.takeIf {
+            RegexUtils.containsKorean(it) || !location.isInKorea
+        }
+        nostalgia.updateAddress(
+            en = addressEn ?: geocoder.locationToAddressEn(location),
+            ko = addressKo ?: geocoder.locationToAddressKo(location)
+        )
         nostalgiaRepository.save(nostalgia)
         val statistic = statisticRepository.findByMemberId(memberId)
             ?: NostalgiaStatistic(member)
@@ -47,7 +59,14 @@ class NostalgiaService(
             memorizedAt = input.memorizedAt ?: memorizedAt
             if (input.location != null) {
                 nostalgia.updateLocation(input.location)
-                nostalgia.updateAddress(geocoder.locationToAddress(input.location))
+                val addressEn = input.address?.takeUnless { RegexUtils.containsKorean(it) }
+                val addressKo = input.address?.takeIf {
+                    RegexUtils.containsKorean(it) || !input.location.isInKorea
+                }
+                nostalgia.updateAddress(
+                    en = addressEn ?: geocoder.locationToAddressEn(input.location),
+                    ko = addressKo ?: geocoder.locationToAddressKo(input.location)
+                )
             }
             input.images?.let { updateMedia(it) }
         }

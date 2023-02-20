@@ -72,9 +72,9 @@ class Nostalgia(
         addMedia(urls)
     }
 
-    fun updateAddress(result: AddressResult) {
-        address = result.en
-        addressKo = result.ko
+    fun updateAddress(en: String?, ko: String?) {
+        address = en
+        addressKo = ko
     }
 
     fun updateLocation(location: Location) {
