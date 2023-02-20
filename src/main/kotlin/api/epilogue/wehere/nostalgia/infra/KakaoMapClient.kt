@@ -25,6 +25,16 @@ interface KakaoMapClient {
         @RequestParam(value = "y") latitude: Double,
         @RequestHeader(value = "Authorization") apiKey: String,
     ): KakaoSearchKeywordResponse
+
+    @GetMapping(value = ["/v2/local/search/address"])
+    fun searchAddress(
+        @RequestParam(value = "query") keyword: String,
+        @RequestParam(value = "page") page: Int,
+        @RequestParam(value = "size") size: Int,
+        @RequestParam(value = "x") longitude: Double,
+        @RequestParam(value = "y") latitude: Double,
+        @RequestHeader(value = "Authorization") apiKey: String
+    ): KakaoAddressResponse
 }
 
 data class KakaoAddressResponse(
@@ -32,18 +42,20 @@ data class KakaoAddressResponse(
 )
 
 data class KakaoAddressDocument(
-    val address: KakaoAddressDetail
-)
+    val address: KakaoAddressDetail?,
+    val road_address: KakaoAddressDetail?,
+    val x: String,
+    val y: String
+) {
+    fun getExistAddress() =
+        (address ?: road_address)!!
+}
 
 data class KakaoAddressDetail(
     val address_name: String,
     val region_1depth_name: String,
     val region_2depth_name: String,
-    val region_3depth_name: String,
-    val mountain_yn: String,
-    val main_address_no: String,
-    val sub_address_no: String,
-    val zip_code: String
+    val region_3depth_name: String
 )
 
 data class KakaoSearchKeywordResponse(

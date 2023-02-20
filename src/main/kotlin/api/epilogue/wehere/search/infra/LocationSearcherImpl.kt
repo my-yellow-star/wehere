@@ -22,7 +22,16 @@ class LocationSearcherImpl(
         }
 
     private fun searchKR(input: LocationSearchInput): LocationSearchResult {
-        val response = kakaoMapClient
+        val addressResponse = kakaoMapClient
+            .searchAddress(
+                keyword = input.keyword,
+                page = 0,
+                size = 3,
+                longitude = input.current.longitude,
+                latitude = input.current.latitude,
+                apiKey = kakaoProperties.mapApiKey
+            )
+        val keywordResponse = kakaoMapClient
             .searchKeyword(
                 keyword = input.keyword,
                 page = input.page,
@@ -30,7 +39,16 @@ class LocationSearcherImpl(
                 latitude = input.current.latitude,
                 apiKey = kakaoProperties.mapApiKey
             )
-        val items = response.documents.map {
+        val items = addressResponse.documents.map {
+            val location = Location(it.y.toDouble(), it.x.toDouble())
+            LocationSearchItem(
+                name = it.getExistAddress().address_name,
+                address = it.getExistAddress().address_name,
+                location = location,
+                distance = null,
+                category = null
+            )
+        } + keywordResponse.documents.map {
             val location = Location(it.y.toDouble(), it.x.toDouble())
             LocationSearchItem(
                 name = it.place_name,
@@ -41,9 +59,9 @@ class LocationSearcherImpl(
             )
         }
         return LocationSearchResult(
-            total = response.meta.pageable_count,
+            total = keywordResponse.meta.pageable_count,
             items = items,
-            isEnd = response.meta.is_end
+            isEnd = keywordResponse.meta.is_end
         )
     }
 }

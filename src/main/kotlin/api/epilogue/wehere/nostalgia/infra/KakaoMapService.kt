@@ -19,7 +19,7 @@ class KakaoMapService(
                 )
                 .documents
                 .firstOrNull()
-                ?.address
+                ?.run { road_address ?: address }
                 ?.let {
                     "${it.region_1depth_name} ${it.region_2depth_name} ${it.region_3depth_name}"
                 }
