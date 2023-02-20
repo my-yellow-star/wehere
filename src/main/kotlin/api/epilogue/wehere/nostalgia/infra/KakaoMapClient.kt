@@ -44,8 +44,8 @@ data class KakaoAddressResponse(
 data class KakaoAddressDocument(
     val address: KakaoAddressDetail?,
     val road_address: KakaoAddressDetail?,
-    val x: String,
-    val y: String
+    val x: String?,
+    val y: String?
 ) {
     fun getExistAddress() =
         (address ?: road_address)!!

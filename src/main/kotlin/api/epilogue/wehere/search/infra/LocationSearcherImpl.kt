@@ -40,7 +40,7 @@ class LocationSearcherImpl(
                 apiKey = kakaoProperties.mapApiKey
             )
         val items = addressResponse.documents.map {
-            val location = Location(it.y.toDouble(), it.x.toDouble())
+            val location = Location(it.y!!.toDouble(), it.x!!.toDouble())
             LocationSearchItem(
                 name = it.getExistAddress().address_name,
                 address = it.getExistAddress().address_name,
