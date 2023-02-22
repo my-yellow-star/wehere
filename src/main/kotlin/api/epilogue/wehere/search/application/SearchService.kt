@@ -30,4 +30,8 @@ class SearchService(
                     nextPage = if (it.isEnd) null else (page ?: 1) + 1
                 )
             }
+
+    fun searchPlaceLocation(
+        placeId: String
+    ) = locationSearcher.getPlaceLocation(placeId)
 }

@@ -42,6 +42,7 @@ data class KakaoAddressResponse(
 )
 
 data class KakaoAddressDocument(
+    val id: String,
     val address: KakaoAddressDetail?,
     val road_address: KakaoAddressDetail?,
     val x: String?,
@@ -69,6 +70,7 @@ data class KakaoSearchKeywordMeta(
 )
 
 data class KakaoSearchKeywordDocument(
+    val id: String,
     val category_name: String,
     val place_name: String,
     val road_address_name: String,
