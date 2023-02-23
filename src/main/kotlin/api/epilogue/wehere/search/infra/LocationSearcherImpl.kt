@@ -55,7 +55,7 @@ class LocationSearcherImpl(
         val items = addressResponse.documents.map {
             val location = Location(it.y!!.toDouble(), it.x!!.toDouble())
             LocationSearchItem(
-                id = it.id,
+                id = "",
                 name = it.getExistAddress().address_name,
                 address = it.getExistAddress().address_name,
                 location = location,

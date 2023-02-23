@@ -42,7 +42,6 @@ data class KakaoAddressResponse(
 )
 
 data class KakaoAddressDocument(
-    val id: String,
     val address: KakaoAddressDetail?,
     val road_address: KakaoAddressDetail?,
     val x: String?,
