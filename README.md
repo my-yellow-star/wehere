@@ -1,5 +1,10 @@
 # wehere
 
+프로젝트 링크
+- 앱스토어: https://apps.apple.com/kr/app/%ED%95%80%ED%94%8C-%EC%B6%94%EC%96%B5%EC%9D%84-%EC%A0%80%EC%B6%95%ED%95%98%EB%8B%A4/id1669184032
+- 플레이스토어: https://play.google.com/store/apps/details?id=com.chana.wehere_client&hl=en-KR
+
+
 한줄 설명
 - 위치에 기반 추억 공유 SNS 플랫폼
 
